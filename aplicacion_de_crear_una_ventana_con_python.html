@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcurso: Crear Ventana en Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comfortaa', sans-serif;
+            line-height: 1.6;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3498db;
+        }
+
+        .lesson {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .lesson.active {
+            display: block;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: #ecf0f1;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .exercise {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .tip {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .example-img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .tab {
+            display: inline-block;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Microcurso: Creación de una Ventana en Python con Tkinter</h1>
+                <p><strong><center>© 2025 Creado por Profesor Bill Papas.</center></strong>
+                    <center>© 2025 Todos los derechos reservados.</center>
+                    </p>
+
+                    <center>
+                        <a href="index.html" class="button">Volveral Inicio</a>
+<style>
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background: #0055aa;
+  }
+</style>
+                    </center> <br>
+
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- Lección 1 -->
+    <div class="lesson active" id="lesson1">
+        <h2>Lección 1: Introducción a Tkinter</h2>
+        <p>Tkinter es la biblioteca estándar de Python para crear interfaces gráficas de usuario (GUIs). Viene incluida
+            con Python, por lo que no necesitas instalar nada adicional.</p>
+
+        <h3>¿Qué es una ventana en Tkinter?</h3>
+        <p>La ventana principal (o "root window") es el contenedor base de cualquier aplicación GUI en Tkinter. Todas
+            las demás widgets (botones, etiquetas, etc.) se colocan dentro de esta ventana.</p>
+
+        <div class="tip">
+            <strong>Tip:</strong> Tkinter es multiplataforma, lo que significa que tu aplicación se verá similar en
+            Windows, macOS y Linux.
+        </div>
+
+        <h3>Creando tu primera ventana</h3>
+        <p>El código más básico para crear una ventana en Tkinter es:</p>
+
+        <div class="code-block" id="code1">
+            import tkinter as tk<br>
+            <br>
+            # Crear la ventana principal<br>
+            ventana = tk.Tk()<br>
+            <br>
+            # Iniciar el bucle principal de la aplicación<br>
+            ventana.mainloop()<br>
+        </div>
+
+        <button onclick="copyCode('code1')">Copiar Código</button>
+
+        <div class="exercise">
+            <h3>Práctica:</h3>
+            <p>1. Abre tu editor de Python favorito (IDLE, VS Code, PyCharm, etc.)<br>
+                2. Copia el código anterior<br>
+                3. Ejecútalo y observa la ventana que aparece</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button disabled>Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 2 -->
+    <div class="lesson" id="lesson2">
+        <h2>Lección 2: Personalizando la Ventana</h2>
+        <p>Ahora que sabemos crear una ventana básica, vamos a personalizarla con título, tamaño y otros atributos.</p>
+
+        <h3>Configurando el título de la ventana</h3>
+        <p>Puedes cambiar el título de la ventana con el método <code>title()</code>:</p>
+
+        <div class="code-block" id="code2">
+            ventana.title("Mi Primera Ventana")<br>
+        </div>
+
+        <h3>Estableciendo el tamaño de la ventana</h3>
+        <p>Hay dos formas principales de establecer el tamaño:</p>
+
+        <div class="code-block" id="code3">
+            # Tamaño mínimo (ancho x alto)<br>
+            ventana.minsize(400, 300)<br>
+            <br>
+            # Tamaño inicial (ancho x alto)<br>
+            ventana.geometry("400x300")<br>
+        </div>
+
+        <h3>Ejemplo completo:</h3>
+        <div class="code-block" id="code4">
+            import tkinter as tk<br>
+            <br>
+            ventana = tk.Tk()<br>
+            ventana.title("Ventana Personalizada")<br>
+            ventana.minsize(400, 300)<br>
+            ventana.geometry("500x400")<br>
+            <br>
+            ventana.mainloop()<br>
+        </div>
+
+        <button onclick="copyCode('code4')">Copiar Código</button>
+
+        <div class="exercise">
+            <h3>Práctica:</h3>
+            <p>1. Modifica el código anterior cambiando el título y el tamaño<br>
+                2. Prueba qué pasa si solo usas <code>minsize()</code> sin <code>geometry()</code><br>
+                3. Intenta hacer la ventana cuadrada (mismo ancho y alto)</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 3 -->
+    <div class="lesson" id="lesson3">
+        <h2>Lección 3: Más Opciones de Ventana</h2>
+        <p>Vamos a explorar más opciones para personalizar nuestra ventana.</p>
+
+        <h3>Cambiar el icono de la ventana</h3>
+        <p>Puedes cambiar el icono que aparece en la barra de título:</p>
+
+        <div class="code-block" id="code5">
+            # Necesitas un archivo .ico (Windows) o .png (Linux/macOS)<br>
+            ventana.iconbitmap("icono.ico") # Para Windows<br>
+            # O alternativamente para multiplataforma:<br>
+            ventana.iconphoto(False, tk.PhotoImage(file='icono.png'))<br>
+        </div>
+
+        <h3>Controlar la redimensión</h3>
+        <p>Puedes controlar si la ventana puede ser redimensionada:</p>
+
+        <div class="code-block" id="code6">
+            # Permitir redimensionar solo horizontalmente<br>
+            ventana.resizable(True, False)<br>
+            <br>
+            # No permitir redimensionar en absoluto<br>
+            ventana.resizable(False, False)<br>
+        </div>
+
+        <h3>Posicionar la ventana en la pantalla</h3>
+        <p>Puedes especificar dónde aparece la ventana:</p>
+
+        <div class="code-block" id="code7">
+            # Centrar la ventana en la pantalla<br>
+            ancho_ventana = 500<br>
+            alto_ventana = 400<br>
+            <br>
+            ancho_pantalla = ventana.winfo_screenwidth()<br>
+            alto_pantalla = ventana.winfo_screenheight()<br>
+            <br>
+            x = (ancho_pantalla // 2) - (ancho_ventana // 2)<br>
+            y = (alto_pantalla // 2) - (alto_ventana // 2)<br>
+            <br>
+            ventana.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")<br>
+        </div>
+
+        <div class="tip">
+            <strong>Tip:</strong> El método <code>winfo_screenwidth()</code> y <code>winfo_screenheight()</code> te dan
+            las dimensiones de la pantalla.
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 4 -->
+    <div class="lesson" id="lesson4">
+        <h2>Lección 4: Atributos Especiales de la Ventana</h2>
+        <p>Exploremos algunos atributos especiales que pueden hacer tu ventana más profesional.</p>
+
+        <h3>Transparencia</h3>
+        <p>Puedes hacer que tu ventana sea parcialmente transparente:</p>
+
+        <div class="code-block" id="code8">
+            # Valor entre 0.0 (invisible) y 1.0 (completamente opaco)<br>
+            ventana.attributes('-alpha', 0.9) # 90% opaco<br>
+        </div>
+
+        <h3>Ventana siempre encima</h3>
+        <p>Puedes hacer que tu ventana permanezca sobre otras:</p>
+
+        <div class="code-block" id="code9">
+            ventana.attributes('-topmost', True)<br>
+            <br>
+            # Para desactivarlo más tarde:<br>
+            ventana.attributes('-topmost', False)<br>
+        </div>
+
+        <h3>Quitar la decoración de la ventana</h3>
+        <p>Puedes crear una ventana sin bordes ni barra de título:</p>
+
+        <div class="code-block" id="code10">
+            ventana.overrideredirect(True)<br>
+            <br>
+            # Para volver a la normalidad:<br>
+            ventana.overrideredirect(False)<br>
+        </div>
+
+        <div class="tip">
+            <strong>Precaución:</strong> Con <code>overrideredirect(True)</code> no tendrás botones de
+            minimizar/maximizar/cerrar, necesitarás proporcionar tu propia forma de cerrar la ventana.
+        </div>
+
+        <div class="exercise">
+            <h3>Práctica:</h3>
+            <p>1. Crea una ventana semitransparente que siempre esté encima<br>
+                2. Experimenta con diferentes valores de transparencia<br>
+                3. Prueba <code>overrideredirect</code> y observa cómo cambia el comportamiento</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 5 -->
+    <div class="lesson" id="lesson5">
+        <h2>Lección 5: Manejo de Eventos y Cierre</h2>
+        <p>Aprenderemos a manejar el cierre de la ventana y otros eventos importantes.</p>
+
+        <h3>Protocolo de cierre</h3>
+        <p>Puedes controlar qué sucede cuando el usuario intenta cerrar la ventana:</p>
+
+        <div class="code-block" id="code11">
+            def on_cerrar():<br>
+            <span class="tab"></span>if messagebox.askokcancel("Salir", "¿Estás seguro de que quieres salir?"):<br>
+            <span class="tab"></span><span class="tab"></span>ventana.destroy()<br>
+            <br>
+            ventana.protocol("WM_DELETE_WINDOW", on_cerrar)<br>
+        </div>
+
+        <h3>Ejemplo completo con importación necesaria:</h3>
+        <div class="code-block" id="code12">
+            import tkinter as tk<br>
+            from tkinter import messagebox<br>
+            <br>
+            ventana = tk.Tk()<br>
+            ventana.title("Manejo de Cierre")<br>
+            ventana.geometry("400x300")<br>
+            <br>
+            def on_cerrar():<br>
+            <span class="tab"></span>if messagebox.askokcancel("Salir", "¿Estás seguro de que quieres salir?"):<br>
+            <span class="tab"></span><span class="tab"></span>ventana.destroy()<br>
+            <br>
+            ventana.protocol("WM_DELETE_WINDOW", on_cerrar)<br>
+            <br>
+            ventana.mainloop()<br>
+        </div>
+
+        <button onclick="copyCode('code12')">Copiar Código</button>
+
+        <h3>Eventos de teclado</h3>
+        <p>Puedes vincular funciones a teclas específicas:</p>
+
+        <div class="code-block" id="code13">
+            def cerrar_con_tecla(event):<br>
+            <span class="tab"></span>ventana.destroy()<br>
+            <br>
+            ventana.bind("&lt;Escape&gt;", cerrar_con_tecla)<br>
+        </div>
+
+        <div class="tip">
+            <strong>Tip:</strong> Puedes vincular casi cualquier tecla o combinación de teclas. Algunos ejemplos:
+            "&lt;Control-q&gt;", "&lt;Alt-F4&gt;", "&lt;F1&gt;".
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 6 -->
+    <div class="lesson" id="lesson6">
+        <h2>Lección 6: Ventanas Secundarias (Toplevel)</h2>
+        <p>A veces necesitas más de una ventana en tu aplicación. Veamos cómo crear ventanas secundarias.</p>
+
+        <h3>Creando una ventana secundaria</h3>
+        <p>Usa <code>Toplevel()</code> para crear ventanas adicionales:</p>
+
+        <div class="code-block" id="code14">
+            def abrir_ventana_secundaria():<br>
+            <span class="tab"></span>ventana_secundaria = tk.Toplevel(ventana)<br>
+            <span class="tab"></span>ventana_secundaria.title("Ventana Secundaria")<br>
+            <span class="tab"></span>ventana_secundaria.geometry("300x200")<br>
+            <br>
+            boton = tk.Button(ventana, text="Abrir Ventana", command=abrir_ventana_secundaria)<br>
+            boton.pack()<br>
+        </div>
+
+        <h3>Diferencias entre Tk() y Toplevel()</h3>
+        <ul>
+            <li><code>Tk()</code> crea la ventana principal (solo debe haber una)</li>
+            <li><code>Toplevel()</code> crea ventanas secundarias (puedes tener varias)</li>
+            <li>Si cierras la ventana principal (<code>Tk()</code>), todas las secundarias también se cierran</li>
+        </ul>
+
+        <h3>Controlar el enfoque</h3>
+        <p>Puedes controlar qué ventana tiene el enfoque:</p>
+
+        <div class="code-block" id="code15">
+            # Hacer que la ventana secundaria tome el enfoque<br>
+            ventana_secundaria.focus_force()<br>
+            <br>
+            # Traer la ventana al frente<br>
+            ventana_secundaria.lift()<br>
+        </div>
+
+        <div class="exercise">
+            <h3>Práctica:</h3>
+            <p>1. Crea una aplicación con una ventana principal y un botón que abra 3 ventanas secundarias<br>
+                2. Haz que cada ventana secundaria tenga un título diferente<br>
+                3. Experimenta con <code>focus_force()</code> y <code>lift()</code></p>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 7 -->
+    <div class="lesson" id="lesson7">
+        <h2>Lección 7: Temas y Estilos</h2>
+        <p>Puedes cambiar la apariencia de tu ventana usando temas predefinidos.</p>
+
+        <h3>Usando ttk para estilos modernos</h3>
+        <p>El módulo <code>ttk</code> (themed tkinter) ofrece widgets con mejor apariencia:</p>
+
+        <div class="code-block" id="code16">
+            from tkinter import ttk<br>
+            <br>
+            style = ttk.Style()<br>
+            <br>
+            # Ver los temas disponibles<br>
+            print(style.theme_names())<br>
+            <br>
+            # Establecer un tema<br>
+            style.theme_use("clam") # Otros: "alt", "default", "classic", "vista", "xpnative"<br>
+        </div>
+
+        <h3>Ejemplo completo con ttk:</h3>
+        <div class="code-block" id="code17">
+            import tkinter as tk<br>
+            from tkinter import ttk<br>
+            <br>
+            ventana = tk.Tk()<br>
+            ventana.title("Ventana con Tema")<br>
+            <br>
+            # Configurar el tema<br>
+            style = ttk.Style()<br>
+            style.theme_use("clam")<br>
+            <br>
+            # Crear un botón ttk (con mejor apariencia)<br>
+            boton = ttk.Button(ventana, text="Botón Moderno")<br>
+            boton.pack(pady=20)<br>
+            <br>
+            ventana.mainloop()<br>
+        </div>
+
+        <button onclick="copyCode('code17')">Copiar Código</button>
+
+        <h3>Personalizando colores</h3>
+        <p>Puedes cambiar los colores de fondo y otros elementos:</p>
+
+        <div class="code-block" id="code18">
+            # Cambiar color de fondo de la ventana<br>
+            ventana.configure(bg="#f0f0f0")<br>
+            <br>
+            # Configurar colores para ttk<br>
+            style.configure("TButton", foreground="blue", background="white", padding=10)<br>
+        </div>
+
+        <div class="tip">
+            <strong>Tip:</strong> Los temas disponibles dependen del sistema operativo. "clam" y "alt" suelen estar
+            disponibles en todas las plataformas.
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Lección 8 -->
+    <div class="lesson" id="lesson8">
+        <h2>Lección 8: Proyecto Final</h2>
+        <p>Vamos a crear una ventana que combine todo lo aprendido en el curso.</p>
+
+        <h3>Requisitos del proyecto:</h3>
+        <ul>
+            <li>Ventana principal con título personalizado</li>
+            <li>Tamaño inicial de 600x400 píxeles</li>
+            <li>Centrada en la pantalla</li>
+            <li>Icono personalizado (si tienes uno)</li>
+            <li>Botón para abrir ventana secundaria</li>
+            <li>Confirmación al cerrar</li>
+            <li>Uso de ttk para widgets</li>
+            <li>Tecla Escape para cerrar</li>
+        </ul>
+
+        <h3>Solución de ejemplo:</h3>
+        <div class="code-block" id="code19">
+            import tkinter as tk<br>
+            from tkinter import ttk, messagebox<br>
+            <br>
+            def main():<br>
+            <span class="tab"></span># Configurar ventana principal<br>
+            <span class="tab"></span>ventana = tk.Tk()<br>
+            <span class="tab"></span>ventana.title("Proyecto Final - Ventana Python")<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Centrar ventana<br>
+            <span class="tab"></span>ancho_ventana = 600<br>
+            <span class="tab"></span>alto_ventana = 400<br>
+            <span class="tab"></span>ancho_pantalla = ventana.winfo_screenwidth()<br>
+            <span class="tab"></span>alto_pantalla = ventana.winfo_screenheight()<br>
+            <span class="tab"></span>x = (ancho_pantalla // 2) - (ancho_ventana // 2)<br>
+            <span class="tab"></span>y = (alto_pantalla // 2) - (alto_ventana // 2)<br>
+            <span class="tab"></span>ventana.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Configurar tema<br>
+            <span class="tab"></span>style = ttk.Style()<br>
+            <span class="tab"></span>style.theme_use("clam")<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Función para ventana secundaria<br>
+            <span class="tab"></span>def abrir_secundaria():<br>
+            <span class="tab"></span><span class="tab"></span>secundaria = tk.Toplevel(ventana)<br>
+            <span class="tab"></span><span class="tab"></span>secundaria.title("Ventana Secundaria")<br>
+            <span class="tab"></span><span class="tab"></span>secundaria.geometry("300x200")<br>
+            <span class="tab"></span><span class="tab"></span>ttk.Label(secundaria, text="¡Esta es una ventana
+            secundaria!").pack(pady=20)<br>
+            <span class="tab"></span><span class="tab"></span>ttk.Button(secundaria, text="Cerrar",
+            command=secundaria.destroy).pack()<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Función para cerrar<br>
+            <span class="tab"></span>def on_cerrar():<br>
+            <span class="tab"></span><span class="tab"></span>if messagebox.askokcancel("Salir", "¿Estás seguro de que
+            quieres salir?"):<br>
+            <span class="tab"></span><span class="tab"></span><span class="tab"></span>ventana.destroy()<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Configurar cierre<br>
+            <span class="tab"></span>ventana.protocol("WM_DELETE_WINDOW", on_cerrar)<br>
+            <span class="tab"></span>ventana.bind("&lt;Escape&gt;", lambda e: on_cerrar())<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span># Widgets<br>
+            <span class="tab"></span>ttk.Label(ventana, text="¡Bienvenido al Proyecto Final!", font=("Arial",
+            14)).pack(pady=20)<br>
+            <span class="tab"></span>ttk.Button(ventana, text="Abrir Ventana Secundaria",
+            command=abrir_secundaria).pack()<br>
+            <span class="tab"></span>ttk.Button(ventana, text="Salir", command=on_cerrar).pack(pady=10)<br>
+            <span class="tab"></span><br>
+            <span class="tab"></span>ventana.mainloop()<br>
+            <br>
+            if __name__ == "__main__":<br>
+            <span class="tab"></span>main()<br>
+        </div>
+
+        <button onclick="copyCode('code19')">Copiar Código</button>
+
+        <div class="exercise">
+            <h3>Tu turno:</h3>
+            <p>1. Copia el código anterior y pruébalo<br>
+                2. Personalízalo cambiando colores, tamaños o añadiendo más widgets<br>
+                3. Intenta añadir una funcionalidad extra, como cambiar el tema con un botón</p>
+        </div>
+
+        <h3>¡Felicidades!</h3>
+        <p>Has completado el microcurso sobre creación de ventanas en Python con Tkinter. Ahora tienes las bases para
+            crear interfaces gráficas completas.</p>
+
+        <div class="nav-buttons">
+            <button onclick="prevLesson()">Anterior</button>
+            <button disabled>Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        let currentLesson = 1;
+        const totalLessons = 8;
+
+        function updateProgress() {
+            const progress = (currentLesson / totalLessons) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function showLesson(lessonNumber) {
+            document.querySelectorAll('.lesson').forEach(lesson => {
+                lesson.classList.remove('active');
+            });
+            document.getElementById(`lesson${lessonNumber}`).classList.add('active');
+            currentLesson = lessonNumber;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                showLesson(currentLesson + 1);
+            }
+        }
+
+        function prevLesson() {
+            if (currentLesson > 1) {
+                showLesson(currentLesson - 1);
+            }
+        }
+
+        function copyCode(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const range = document.createRange();
+            range.selectNode(codeElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+
+            // Mostrar feedback
+            const button = codeElement.nextElementSibling;
+            const originalText = button.textContent;
+            button.textContent = "¡Copiado!";
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }
+
+        // Inicializar
+        updateProgress();
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowRight') {
+                nextLesson();
+            } else if (event.key === 'ArrowLeft') {
+                prevLesson();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcurso: Encontrar Duplicados en Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #3498db;
+        }
+
+        .lesson {
+            display: none;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background-color: #ecf0f1;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+
+        .demo-area {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            background: #ddd;
+            border: none;
+            padding: 8px 15px;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+        }
+
+        .tab-btn.active-tab {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active-tab {
+            display: block;
+        }
+
+        #app-container {
+            margin-top: 30px;
+        }
+
+        #input-data {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+
+        .duplicate-item {
+            background-color: #fff3cd;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .exercise {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #1abc9c;
+        }
+
+        .quiz {
+            background-color: #fef9e7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .quiz-question {
+            margin-bottom: 10px;
+        }
+
+        .quiz-options {
+            margin-left: 20px;
+        }
+
+        .quiz-option {
+            margin-bottom: 5px;
+        }
+
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Microcurso: Encontrar Elementos Duplicados en Python</h1>
+                <p><strong><center>© 2025 Creado por Profesor Bill Papas.</center></strong>
+                    <center>© 2025 Todos los derechos reservados.</center>
+                    </p>
+
+                    <center>
+                        <a href="index.html" class="button">Volveral Inicio</a>
+<style>
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background: #0055aa;
+  }
+</style>
+                    </center> <br>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <!-- Lección 1: Introducción -->
+        <div class="lesson active" id="lesson1">
+            <h2>1. Introducción a los Duplicados</h2>
+            <p>En este curso aprenderás a identificar y manejar elementos duplicados en Python, una habilidad esencial
+                para el procesamiento y limpieza de datos.</p>
+
+            <h3>¿Por qué es importante?</h3>
+            <ul>
+                <li>Los datos duplicados pueden afectar los resultados de análisis</li>
+                <li>Pueden consumir recursos innecesarios</li>
+                <li>Pueden indicar problemas en la recolección de datos</li>
+            </ul>
+
+            <div class="demo-area">
+                <h4>Ejemplo práctico:</h4>
+                <p>Imagina una lista de correos electrónicos de usuarios donde algunos están repetidos. Necesitamos
+                    identificar estos duplicados para enviar un solo correo a cada usuario.</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button disabled>Anterior</button>
+                <button onclick="nextLesson()">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Lección 2: Conceptos Básicos -->
+        <div class="lesson" id="lesson2">
+            <h2>2. Conceptos Básicos</h2>
+            <p>Para identificar duplicados, necesitamos entender algunas estructuras de datos en Python:</p>
+
+            <div class="tab-buttons">
+                <button class="tab-btn active-tab" onclick="openTab(event, 'list-tab')">Listas</button>
+                <button class="tab-btn" onclick="openTab(event, 'set-tab')">Conjuntos</button>
+                <button class="tab-btn" onclick="openTab(event, 'dict-tab')">Diccionarios</button>
+            </div>
+
+            <div id="list-tab" class="tab-content active-tab">
+                <h4>Listas en Python</h4>
+                <p>Las listas son colecciones ordenadas y mutables que permiten elementos duplicados.</p>
+                <div class="code-block">
+                    # Crear una lista<br>
+                    frutas = ["manzana", "banana", "naranja", "manzana", "uva"]<br><br>
+
+                    # Acceder a elementos<br>
+                    print(frutas[0]) # Output: manzana<br><br>
+
+                    # Verificar duplicados<br>
+                    print(frutas.count("manzana")) # Output: 2
+                </div>
+            </div>
+
+            <div id="set-tab" class="tab-content">
+                <h4>Conjuntos en Python</h4>
+                <p>Los conjuntos son colecciones no ordenadas y sin elementos duplicados.</p>
+                <div class="code-block">
+                    # Crear un conjunto<br>
+                    frutas = {"manzana", "banana", "naranja", "manzana", "uva"}<br><br>
+
+                    # Los duplicados se eliminan automáticamente<br>
+                    print(frutas) # Output: {'manzana', 'banana', 'naranja', 'uva'}<br><br>
+
+                    # Verificar si un elemento existe<br>
+                    print("manzana" in frutas) # Output: True
+                </div>
+            </div>
+
+            <div id="dict-tab" class="tab-content">
+                <h4>Diccionarios en Python</h4>
+                <p>Los diccionarios almacenan pares clave-valor y son útiles para contar ocurrencias.</p>
+                <div class="code-block">
+                    # Crear un diccionario para contar frutas<br>
+                    conteo_frutas = {}<br>
+                    frutas = ["manzana", "banana", "naranja", "manzana", "uva"]<br><br>
+
+                    for fruta in frutas:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if fruta in conteo_frutas:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conteo_frutas[fruta] += 1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conteo_frutas[fruta] = 1<br><br>
+
+                    print(conteo_frutas) # Output: {'manzana': 2, 'banana': 1, 'naranja': 1, 'uva': 1}
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio Práctico</h4>
+                <p>Crea una lista con 10 números (algunos duplicados) y escribe código para contar cuántas veces aparece
+                    cada número.</p>
+                <button onclick="showSolution('ex1-solution')">Mostrar Solución</button>
+                <div id="ex1-solution" class="code-block" style="display:none; margin-top:10px;">
+                    numeros = [1, 2, 3, 2, 4, 5, 1, 6, 7, 1]<br><br>
+
+                    conteo = {}<br>
+                    for num in numeros:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if num in conteo:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conteo[num] += 1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conteo[num] = 1<br><br>
+
+                    print(conteo)<br>
+                    # Output: {1: 3, 2: 2, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1}
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="prevLesson()">Anterior</button>
+                <button onclick="nextLesson()">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Lección 3: Métodos para Encontrar Duplicados -->
+        <div class="lesson" id="lesson3">
+            <h2>3. Métodos para Encontrar Duplicados</h2>
+            <p>Existen varias formas de identificar elementos duplicados en Python. Veamos los más comunes:</p>
+
+            <h3>Método 1: Usando conjuntos (set)</h3>
+            <div class="code-block">
+                def encontrar_duplicados(lista):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;unicos = set()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;duplicados = set()<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;for item in lista:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if item in unicos:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicados.add(item)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unicos.add(item)<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;return list(duplicados)<br><br>
+
+                # Ejemplo de uso<br>
+                lista = [1, 2, 3, 2, 4, 5, 1, 6, 7, 1]<br>
+                print(encontrar_duplicados(lista)) # Output: [1, 2]
+            </div>
+
+            <h3>Método 2: Usando collections.Counter</h3>
+            <div class="code-block">
+                from collections import Counter<br><br>
+
+                def encontrar_duplicados(lista):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;conteo = Counter(lista)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return [item for item, count in conteo.items() if count > 1]<br><br>
+
+                # Ejemplo de uso<br>
+                lista = ['a', 'b', 'c', 'a', 'd', 'e', 'b']<br>
+                print(encontrar_duplicados(lista)) # Output: ['a', 'b']
+            </div>
+
+            <h3>Método 3: Usando list.count()</h3>
+            <div class="code-block">
+                def encontrar_duplicados(lista):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;duplicados = []<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;for item in lista:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if lista.count(item) > 1 and item not in duplicados:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicados.append(item)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return duplicados<br><br>
+
+                # Ejemplo de uso<br>
+                lista = [10, 20, 30, 20, 40, 10, 50]<br>
+                print(encontrar_duplicados(lista)) # Output: [10, 20]
+            </div>
+
+            <div class="quiz">
+                <h4>Cuestionario</h4>
+                <div class="quiz-question">
+                    <p>1. ¿Cuál método es más eficiente para listas grandes?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1a" value="a">
+                            <label for="q1a">list.count()</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1b" value="b">
+                            <label for="q1b">collections.Counter</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1c" value="c">
+                            <label for="q1c">Usando conjuntos</label>
+                        </div>
+                    </div>
+                    <button onclick="checkAnswer('q1', 'b')">Verificar</button>
+                    <span id="q1-result"></span>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="prevLesson()">Anterior</button>
+                <button onclick="nextLesson()">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Lección 4: Aplicación Completa -->
+        <div class="lesson" id="lesson4">
+            <h2>4. Aplicación Completa para Encontrar Duplicados</h2>
+            <p>Ahora implementaremos una aplicación completa que permite al usuario ingresar datos y encontrar
+                duplicados.</p>
+
+            <div id="app-container">
+                <h3>Encuentra Duplicados en tus Datos</h3>
+                <p>Ingresa tus elementos separados por comas (ej: manzana,banana,naranja,manzana):</p>
+                <textarea id="input-data" placeholder="Ingresa tus datos aquí..."></textarea>
+                <button onclick="findDuplicates()">Buscar Duplicados</button>
+                <div id="results"></div>
+            </div>
+
+            <div class="code-block">
+                // JavaScript para la aplicación<br>
+                function findDuplicates() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const input = document.getElementById('input-data').value;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const items = input.split(',').map(item => item.trim());<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const unique = new Set();<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const duplicates = new Set();<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;items.forEach(item => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (unique.has(item)) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicates.add(item);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unique.add(item);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;});<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;const resultsDiv = document.getElementById('results');<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (duplicates.size === 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML = '&lt;p&gt;No se encontraron
+                elementos duplicados.&lt;/p&gt;';<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML = '&lt;h4&gt;Elementos duplicados
+                encontrados:&lt;/h4&gt;';<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicates.forEach(item => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const count = items.filter(i =>
+                i === item).length;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML += `<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                class="duplicate-item"&gt;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;strong&gt;${item}&lt;/strong&gt;
+                aparece ${count} veces<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;`;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio de Mejora</h4>
+                <p>Modifica la aplicación para que también muestre los índices (posiciones) donde aparece cada elemento
+                    duplicado.</p>
+                <button onclick="showSolution('ex4-solution')">Mostrar Solución</button>
+                <div id="ex4-solution" class="code-block" style="display:none; margin-top:10px;">
+                    function findDuplicatesWithPositions() {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;const input = document.getElementById('input-data').value;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;const items = input.split(',').map(item => item.trim());<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;const itemPositions = {};<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;// Registrar las posiciones de cada elemento<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;items.forEach((item, index) => {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!itemPositions[item]) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemPositions[item] =
+                    [];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemPositions[item].push(index);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;});<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;const resultsDiv = document.getElementById('results');<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML = '&lt;h4&gt;Resultados:&lt;/h4&gt;';<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;for (const item in itemPositions) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const positions = itemPositions[item];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (positions.length > 1) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML +=
+                    `<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div
+                    class="duplicate-item"&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;strong&gt;${item}&lt;/strong&gt;
+                    aparece ${positions.length} veces en las posiciones: ${positions.join(', ')}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;`;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultsDiv.innerHTML +=
+                    `<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;${item}
+                    aparece 1 vez&lt;/div&gt;`;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="prevLesson()">Anterior</button>
+                <button onclick="nextLesson()">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Lección 5: Casos de Uso Avanzados -->
+        <div class="lesson" id="lesson5">
+            <h2>5. Casos de Uso Avanzados</h2>
+            <p>Vamos a explorar situaciones más complejas donde necesitamos encontrar duplicados.</p>
+
+            <h3>1. Duplicados en Listas de Diccionarios</h3>
+            <div class="code-block">
+                usuarios = [<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 1, "nombre": "Juan", "email": "juan@example.com"},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 2, "nombre": "María", "email": "maria@example.com"},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 3, "nombre": "Juan", "email": "juan.d@example.com"},<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 4, "nombre": "Pedro", "email": "juan@example.com"} # Email duplicado<br>
+                ]<br><br>
+
+                # Encontrar usuarios con email duplicado<br>
+                emails = {}<br>
+                duplicados = []<br><br>
+
+                for usuario in usuarios:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;email = usuario["email"]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if email in emails:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicados.append(emails[email])<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicados.append(usuario)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emails[email] = usuario<br><br>
+
+                print("Usuarios con email duplicado:", duplicados)
+            </div>
+
+            <h3>2. Encontrar Duplicados en Archivos</h3>
+            <div class="code-block">
+                import hashlib<br><br>
+
+                def hash_file(filepath):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"""Calcula el hash MD5 de un archivo"""<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;hash_md5 = hashlib.md5()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;with open(filepath, "rb") as f:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for chunk in iter(lambda: f.read(4096), b""):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash_md5.update(chunk)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return hash_md5.hexdigest()<br><br>
+
+                def encontrar_archivos_duplicados(directorio):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;import os<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;hashes = {}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;duplicados = []<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;for root, dirs, files in os.walk(directorio):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for filename in files:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filepath = os.path.join(root,
+                filename)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file_hash =
+                hash_file(filepath)<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if file_hash in hashes:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicados.append((filepath,
+                hashes[file_hash]))<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashes[file_hash]
+                = filepath<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;return duplicados<br><br>
+
+                # Ejemplo de uso<br>
+                # duplicados = encontrar_archivos_duplicados('/ruta/al/directorio')<br>
+                # for dup in duplicados:<br>
+                # &nbsp;&nbsp;&nbsp;&nbsp;print(f"Archivo duplicado: {dup[0]} es igual a {dup[1]}")
+            </div>
+
+            <h3>3. Duplicados en Bases de Datos</h3>
+            <div class="code-block">
+                import sqlite3<br><br>
+
+                def encontrar_duplicados_en_db(db_path):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;conn = sqlite3.connect(db_path)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;cursor = conn.cursor()<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;# Ejemplo: encontrar usuarios con el mismo email<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;cursor.execute("""<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT email, COUNT(*) as count<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM usuarios<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP BY email<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HAVING count > 1<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;""")<br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;duplicados = cursor.fetchall()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;conn.close()<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return duplicados<br><br>
+
+                # Ejemplo de uso<br>
+                # duplicados = encontrar_duplicados_en_db('mi_base_de_datos.db')<br>
+                # for email, count in duplicados:<br>
+                # &nbsp;&nbsp;&nbsp;&nbsp;print(f"Email {email} aparece {count} veces")
+            </div>
+
+            <div class="quiz">
+                <h4>Cuestionario Final</h4>
+                <div class="quiz-question">
+                    <p>1. ¿Cuál es la forma más eficiente de encontrar duplicados en una lista muy grande?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2a" value="a">
+                            <label for="q2a">Usando list.count() en un bucle</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2b" value="b">
+                            <label for="q2b">Usando un diccionario para contar ocurrencias</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2c" value="c">
+                            <label for="q2c">Comparando cada elemento con todos los demás</label>
+                        </div>
+                    </div>
+                    <button onclick="checkAnswer('q2', 'b')">Verificar</button>
+                    <span id="q2-result"></span>
+                </div>
+
+                <div class="quiz-question">
+                    <p>2. Para encontrar archivos duplicados, ¿qué propiedad debemos comparar?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3a" value="a">
+                            <label for="q3a">El nombre del archivo</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3b" value="b">
+                            <label for="q3b">El tamaño del archivo</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3c" value="c">
+                            <label for="q3c">El hash del contenido del archivo</label>
+                        </div>
+                    </div>
+                    <button onclick="checkAnswer('q3', 'c')">Verificar</button>
+                    <span id="q3-result"></span>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="prevLesson()">Anterior</button>
+                <button disabled>Siguiente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLesson = 1;
+        const totalLessons = 5;
+
+        // Función para mostrar la lección actual
+        function showLesson(lessonNumber) {
+            // Ocultar todas las lecciones
+            document.querySelectorAll('.lesson').forEach(lesson => {
+                lesson.classList.remove('active');
+            });
+
+            // Mostrar la lección actual
+            document.getElementById(`lesson${lessonNumber}`).classList.add('active');
+
+            // Actualizar la barra de progreso
+            const progressPercentage = ((lessonNumber - 1) / (totalLessons - 1)) * 100;
+            document.getElementById('progress').style.width = `${progressPercentage}%`;
+
+            // Deshabilitar botones de navegación cuando sea necesario
+            document.querySelectorAll('.nav-buttons button').forEach(button => {
+                if (button.textContent === 'Anterior' && lessonNumber === 1) {
+                    button.disabled = true;
+                } else if (button.textContent === 'Siguiente' && lessonNumber === totalLessons) {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
+            });
+        }
+
+        // Navegación entre lecciones
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                currentLesson++;
+                showLesson(currentLesson);
+            }
+        }
+
+        function prevLesson() {
+            if (currentLesson > 1) {
+                currentLesson--;
+                showLesson(currentLesson);
+            }
+        }
+
+        // Sistema de pestañas
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active-tab");
+            }
+
+            const tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active-tab");
+            }
+
+            document.getElementById(tabName).classList.add("active-tab");
+            evt.currentTarget.classList.add("active-tab");
+        }
+
+        // Mostrar soluciones de ejercicios
+        function showSolution(id) {
+            const solution = document.getElementById(id);
+            if (solution.style.display === "none") {
+                solution.style.display = "block";
+            } else {
+                solution.style.display = "none";
+            }
+        }
+
+        // Verificar respuestas del cuestionario
+        function checkAnswer(questionId, correctAnswer) {
+            const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+            const resultSpan = document.getElementById(`${questionId}-result`);
+
+            if (!selectedOption) {
+                resultSpan.textContent = "Por favor selecciona una opción";
+                resultSpan.className = "incorrect";
+                return;
+            }
+
+            if (selectedOption.value === correctAnswer) {
+                resultSpan.textContent = "¡Correcto!";
+                resultSpan.className = "correct";
+            } else {
+                resultSpan.textContent = "Incorrecto. Intenta nuevamente.";
+                resultSpan.className = "incorrect";
+            }
+        }
+
+        // Función para la aplicación de encontrar duplicados
+        function findDuplicates() {
+            const input = document.getElementById('input-data').value;
+            const items = input.split(',').map(item => item.trim());
+            const unique = new Set();
+            const duplicates = new Set();
+
+            items.forEach(item => {
+                if (unique.has(item)) {
+                    duplicates.add(item);
+                } else {
+                    unique.add(item);
+                }
+            });
+
+            const resultsDiv = document.getElementById('results');
+            if (duplicates.size === 0) {
+                resultsDiv.innerHTML = '<p>No se encontraron elementos duplicados.</p>';
+            } else {
+                resultsDiv.innerHTML = '<h4>Elementos duplicados encontrados:</h4>';
+                duplicates.forEach(item => {
+                    const count = items.filter(i => i === item).length;
+                    resultsDiv.innerHTML += `
+                        <div class="duplicate-item">
+                            <strong>${item}</strong> aparece ${count} veces
+                        </div>`;
+                });
+            }
+        }
+
+        // Inicializar la primera lección
+        showLesson(1);
+    </script>
+</body>
+
+</html>
