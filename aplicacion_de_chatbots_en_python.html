@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcurso: Chatbots con Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --light-color: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comfortaa', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+        }
+        
+        .course-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background-color: var(--light-color);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-color);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .lesson-container {
+            display: none;
+            padding: 30px;
+        }
+        
+        .lesson-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .lesson-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        .lesson-content {
+            margin-bottom: 30px;
+        }
+        
+        .lesson-content h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+        }
+        
+        .lesson-content p {
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background-color: #f0f4f8;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .lesson-index {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        .exercise {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .exercise h4 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .tip {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .tip h4 {
+            color: #ff9800;
+            margin-bottom: 10px;
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 50px 20px;
+            display: none;
+        }
+        
+        .completion-message h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .completion-message p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .certificate-btn {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .certificate-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .lesson-container {
+                padding: 20px;
+            }
+            
+            .lesson-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <div class="header">
+            <h1>Aplicación de Chatbots con Python</h1>
+            <p>Microcurso completo y práctico para desarrollar chatbots inteligentes</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="lesson-index">
+            Lección <span id="current-lesson">1</span> de <span id="total-lessons">8</span>
+        </div>
+        
+        <!-- Lección 1 -->
+        <div class="lesson-container active" id="lesson1">
+            <h2 class="lesson-title">1. Introducción a los Chatbots</h2>
+            <div class="lesson-content">
+                <p>Los chatbots son programas que simulan conversaciones con usuarios humanos a través de interfaces de mensajería. En esta lección aprenderás los fundamentos de los chatbots y sus aplicaciones.</p>
+                
+                <h3>¿Qué es un chatbot?</h3>
+                <p>Un chatbot es un software diseñado para mantener una conversación con un usuario, interpretar sus mensajes y responder de manera coherente.</p>
+                
+                <h3>Tipos de chatbots</h3>
+                <ul>
+                    <li><strong>Basados en reglas:</strong> Siguen un flujo predefinido de conversación</li>
+                    <li><strong>Inteligentes (IA):</strong> Utilizan procesamiento de lenguaje natural (NLP) y aprendizaje automático</li>
+                    <li><strong>Híbridos:</strong> Combinan ambos enfoques</li>
+                </ul>
+                
+                <div class="tip">
+                    <h4>Consejo profesional</h4>
+                    <p>Para la mayoría de aplicaciones prácticas, los chatbots híbridos ofrecen el mejor balance entre complejidad y funcionalidad.</p>
+                </div>
+                
+                <h3>Casos de uso comunes</h3>
+                <ul>
+                    <li>Atención al cliente</li>
+                    <li>Asistentes virtuales</li>
+                    <li>Reservas y citas</li>
+                    <li>Educación y entrenamiento</li>
+                    <li>Entretenimiento</li>
+                </ul>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev1" disabled>Anterior</button>
+                <button class="nav-btn" id="next1">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 2 -->
+        <div class="lesson-container" id="lesson2">
+            <h2 class="lesson-title">2. Configuración del Entorno</h2>
+            <div class="lesson-content">
+                <p>Antes de comenzar a desarrollar nuestro chatbot, necesitamos configurar nuestro entorno de desarrollo con las herramientas necesarias.</p>
+                
+                <h3>Requisitos</h3>
+                <ul>
+                    <li>Python 3.7 o superior</li>
+                    <li>Editor de código (VS Code, PyCharm, etc.)</li>
+                    <li>Terminal o línea de comandos</li>
+                </ul>
+                
+                <h3>Instalación de bibliotecas</h3>
+                <p>Vamos a instalar las bibliotecas principales que usaremos:</p>
+                <div class="code-block">
+                    <code>pip install nltk
+pip install numpy
+pip install tensorflow
+pip install flask</code>
+                </div>
+                
+                <h3>Configuración de NLTK</h3>
+                <p>NLTK (Natural Language Toolkit) es una biblioteca fundamental para procesamiento de lenguaje natural:</p>
+                <div class="code-block">
+                    <code>import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Instala Python en tu sistema si no lo tienes ya instalado</p>
+                    <p>2. Crea un nuevo entorno virtual para el proyecto</p>
+                    <p>3. Instala todas las bibliotecas mencionadas</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev2">Anterior</button>
+                <button class="nav-btn" id="next2">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 3 -->
+        <div class="lesson-container" id="lesson3">
+            <h2 class="lesson-title">3. Chatbot Basado en Reglas</h2>
+            <div class="lesson-content">
+                <p>Comenzaremos creando un chatbot simple basado en reglas que responde a patrones específicos de entrada.</p>
+                
+                <h3>Estructura básica</h3>
+                <div class="code-block">
+                    <code>def simple_chatbot(user_input):
+    user_input = user_input.lower()
+    
+    if "hola" in user_input:
+        return "¡Hola! ¿Cómo estás?"
+    elif "adiós" in user_input or "chao" in user_input:
+        return "¡Hasta luego! Fue un placer ayudarte."
+    elif "gracias" in user_input:
+        return "De nada, estoy aquí para ayudar."
+    else:
+        return "No estoy seguro de entender. ¿Puedes reformular tu pregunta?"</code>
+                </div>
+                
+                <h3>Mejorando con expresiones regulares</h3>
+                <p>Podemos hacer nuestro chatbot más flexible usando expresiones regulares:</p>
+                <div class="code-block">
+                    <code>import re
+
+def regex_chatbot(user_input):
+    user_input = user_input.lower()
+    
+    if re.search(r'\b(hola|buenos días|buenas tardes)\b', user_input):
+        return "¡Saludos! ¿En qué puedo ayudarte hoy?"
+    elif re.search(r'\b(adios|chao|hasta luego|nos vemos)\b', user_input):
+        return "¡Que tengas un buen día!"
+    elif re.search(r'\b(gracias|muchas gracias|te lo agradezco)\b', user_input):
+        return "Fue un placer ayudarte. ¡Vuelve pronto!"
+    else:
+        return "No estoy seguro de entenderte completamente. ¿Podrías decirlo de otra forma?"</code>
+                </div>
+                
+                <div class="tip">
+                    <h4>Mejora tu chatbot</h4>
+                    <p>Crea un diccionario de patrones y respuestas para hacer tu código más mantenible y fácil de expandir.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev3">Anterior</button>
+                <button class="nav-btn" id="next3">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 4 -->
+        <div class="lesson-container" id="lesson4">
+            <h2 class="lesson-title">4. Procesamiento de Lenguaje Natural</h2>
+            <div class="lesson-content">
+                <p>Para crear chatbots más inteligentes, necesitamos incorporar técnicas de Procesamiento de Lenguaje Natural (NLP).</p>
+                
+                <h3>Tokenización</h3>
+                <p>Dividir el texto en palabras o frases significativas:</p>
+                <div class="code-block">
+                    <code>from nltk.tokenize import word_tokenize, sent_tokenize
+
+text = "Hola, ¿cómo estás? Espero que bien."
+print("Tokens de palabras:", word_tokenize(text))
+print("Tokens de oraciones:", sent_tokenize(text))</code>
+                </div>
+                
+                <h3>Lematización</h3>
+                <p>Reducir palabras a su forma base o lema:</p>
+                <div class="code-block">
+                    <code>from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+words = ["corriendo", "corrió", "correremos"]
+lemmas = [lemmatizer.lemmatize(word, pos='v') for word in words]
+print(lemmas)  # ['correr', 'correr', 'correr']</code>
+                </div>
+                
+                <h3>Eliminación de palabras vacías (stop words)</h3>
+                <div class="code-block">
+                    <code>from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+nltk.download('stopwords')
+stop_words = set(stopwords.words('spanish'))
+
+text = "Este es un ejemplo de cómo eliminar palabras vacías"
+words = word_tokenize(text.lower())
+filtered_words = [word for word in words if word not in stop_words]
+print(filtered_words)  # ['ejemplo', 'eliminar', 'palabras', 'vacías']</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>Crea una función que tome una oración y devuelva una lista de lemas de las palabras significativas (sin stop words).</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev4">Anterior</button>
+                <button class="nav-btn" id="next4">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 5 -->
+        <div class="lesson-container" id="lesson5">
+            <h2 class="lesson-title">5. Chatbot con Aprendizaje Automático</h2>
+            <div class="lesson-content">
+                <p>Vamos a crear un chatbot más avanzado utilizando técnicas de aprendizaje automático y redes neuronales.</p>
+                
+                <h3>Preparación de datos</h3>
+                <p>Necesitamos un conjunto de datos de intenciones (intents) para entrenar nuestro chatbot:</p>
+                <div class="code-block">
+                    <code>intents = {
+    "saludos": {
+        "patterns": ["hola", "buenos días", "buenas tardes", "hey"],
+        "responses": ["¡Hola!", "¡Saludos!", "¿Cómo estás?"]
+    },
+    "despedidas": {
+        "patterns": ["adiós", "hasta luego", "nos vemos", "chao"],
+        "responses": ["¡Hasta pronto!", "Que tengas un buen día", "Adiós"]
+    },
+    "agradecimiento": {
+        "patterns": ["gracias", "muchas gracias", "te lo agradezco"],
+        "responses": ["De nada", "Fue un placer", "No hay de qué"]
+    }
+}</code>
+                </div>
+                
+                <h3>Preprocesamiento de datos</h3>
+                <div class="code-block">
+                    <code>from nltk.stem import WordNetLemmatizer
+import numpy as np
+import random
+
+lemmatizer = WordNetLemmatizer()
+
+words = []
+classes = []
+documents = []
+
+for intent_name, intent_data in intents.items():
+    for pattern in intent_data['patterns']:
+        # Tokenizar cada palabra
+        word_list = word_tokenize(pattern)
+        words.extend(word_list)
+        # Agregar documento al corpus
+        documents.append((word_list, intent_name))
+    
+    # Agregar a la lista de clases
+    if intent_name not in classes:
+        classes.append(intent_name)
+
+# Lematizar y eliminar duplicados
+words = [lemmatizer.lemmatize(word.lower()) for word in words if word not in ignore_words]
+words = sorted(set(words))
+classes = sorted(set(classes))</code>
+                </div>
+                
+                <h3>Creación del modelo</h3>
+                <div class="code-block">
+                    <code>from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import SGD
+
+model = Sequential()
+model.add(Dense(128, input_shape=(len(train_x[0]),), activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(len(train_y[0]), activation='softmax'))
+
+sgd = SGD(learning_rate=0.01, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
+model.save('chatbot_model.h5')</code>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev5">Anterior</button>
+                <button class="nav-btn" id="next5">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 6 -->
+        <div class="lesson-container" id="lesson6">
+            <h2 class="lesson-title">6. Integración con Flask</h2>
+            <div class="lesson-content">
+                <p>Ahora vamos a crear una interfaz web para nuestro chatbot utilizando Flask.</p>
+                
+                <h3>Aplicación básica de Flask</h3>
+                <div class="code-block">
+                    <code>from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/get_response', methods=['POST'])
+def get_response():
+    user_message = request.form['message']
+    # Aquí iría la lógica para procesar el mensaje y generar una respuesta
+    response = "Esta es una respuesta de prueba"
+    return jsonify({'response': response})
+
+if __name__ == '__main__':
+    app.run(debug=True)</code>
+                </div>
+                
+                <h3>Interfaz HTML para el chatbot</h3>
+                <p>Crea un archivo <code>templates/index.html</code>:</p>
+                <div class="code-block">
+                    <code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Chatbot con Flask&lt;/title&gt;
+    &lt;style&gt;
+        .chat-container {
+            width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .user-message {
+            text-align: right;
+            margin: 5px;
+            padding: 5px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+        }
+        .bot-message {
+            text-align: left;
+            margin: 5px;
+            padding: 5px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        input[type="text"] {
+            width: 75%;
+            padding: 8px;
+        }
+        button {
+            width: 20%;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="chat-container"&gt;
+        &lt;div class="chat-box" id="chat-box"&gt;&lt;/div&gt;
+        &lt;div class="input-area"&gt;
+            &lt;input type="text" id="user-input" placeholder="Escribe tu mensaje..."&gt;
+            &lt;button onclick="sendMessage()"&gt;Enviar&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                // Mostrar mensaje del usuario
+                displayMessage(message, 'user');
+                userInput.value = '';
+                
+                // Obtener respuesta del bot
+                fetch('/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage(data.response, 'bot');
+                });
+            }
+        }
+        
+        function displayMessage(message, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender + '-message';
+            messageDiv.textContent = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        // Permitir enviar con Enter
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev6">Anterior</button>
+                <button class="nav-btn" id="next6">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 7 -->
+        <div class="lesson-container" id="lesson7">
+            <h2 class="lesson-title">7. Despliegue del Chatbot</h2>
+            <div class="lesson-content">
+                <p>Una vez que tenemos nuestro chatbot funcionando localmente, es hora de desplegarlo para que esté disponible en línea.</p>
+                
+                <h3>Opciones de despliegue</h3>
+                <ul>
+                    <li><strong>Heroku:</strong> Plataforma como servicio (PaaS) popular para aplicaciones Python</li>
+                    <li><strong>PythonAnywhere:</strong> Servicio especializado para aplicaciones Python</li>
+                    <li><strong>Google Cloud/AWS/Azure:</strong> Soluciones de infraestructura en la nube</li>
+                    <li><strong>Servidor propio:</strong> Para mayor control sobre la infraestructura</li>
+                </ul>
+                
+                <h3>Desplegando en Heroku</h3>
+                <p>Pasos para desplegar nuestra aplicación Flask en Heroku:</p>
+                
+                <div class="code-block">
+                    <code># Requisitos previos:
+# 1. Tener cuenta en Heroku
+# 2. Tener instalado Heroku CLI
+# 3. Tener Git instalado
+
+# Crear archivo requirements.txt
+pip freeze > requirements.txt
+
+# Crear archivo Procfile (sin extensión)
+echo "web: gunicorn app:app" > Procfile
+
+# Inicializar repositorio Git
+git init
+git add .
+git commit -m "Primer commit"
+
+# Conectar con Heroku y desplegar
+heroku login
+heroku create nombre-de-tu-app
+git push heroku master
+
+# Abrir la aplicación
+heroku open</code>
+                </div>
+                
+                <h3>Configuración adicional</h3>
+                <p>Para aplicaciones más complejas, necesitarás:</p>
+                <ul>
+                    <li>Configurar variables de entorno</li>
+                    <li>Gestionar bases de datos</li>
+                    <li>Configurar dominios personalizados</li>
+                    <li>Implementar SSL/TLS</li>
+                </ul>
+                
+                <div class="tip">
+                    <h4>Consejo de despliegue</h4>
+                    <p>Para entornos de producción, considera usar Gunicorn o uWSGI como servidor WSGI en lugar del servidor de desarrollo de Flask.</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev7">Anterior</button>
+                <button class="nav-btn" id="next7">Siguiente</button>
+            </div>
+        </div>
+        
+        <!-- Lección 8 -->
+        <div class="lesson-container" id="lesson8">
+            <h2 class="lesson-title">8. Mejoras y Funcionalidades Avanzadas</h2>
+            <div class="lesson-content">
+                <p>Ahora que tenemos un chatbot funcional, exploremos cómo mejorarlo con características avanzadas.</p>
+                
+                <h3>Integración con APIs externas</h3>
+                <p>Podemos hacer que nuestro chatbot interactúe con servicios externos:</p>
+                <div class="code-block">
+                    <code>import requests
+
+def get_weather(city):
+    api_key = "tu_api_key"
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    complete_url = f"{base_url}appid={api_key}&q={city}&units=metric&lang=es"
+    
+    response = requests.get(complete_url)
+    data = response.json()
+    
+    if data["cod"] != "404":
+        main = data["main"]
+        weather = data["weather"][0]
+        temp = main["temp"]
+        desc = weather["description"]
+        return f"El clima en {city}: {desc}, temperatura: {temp}°C"
+    else:
+        return "Ciudad no encontrada"</code>
+                </div>
+                
+                <h3>Persistencia con bases de datos</h3>
+                <p>Podemos guardar el historial de conversaciones o preferencias del usuario:</p>
+                <div class="code-block">
+                    <code>import sqlite3
+
+def setup_database():
+    conn = sqlite3.connect('chatbot.db')
+    c = conn.cursor()
+    
+    # Crear tabla de conversaciones
+    c.execute('''CREATE TABLE IF NOT EXISTS conversations
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  user_id TEXT,
+                  message TEXT,
+                  response TEXT,
+                  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+    
+    conn.commit()
+    conn.close()
+
+def save_conversation(user_id, message, response):
+    conn = sqlite3.connect('chatbot.db')
+    c = conn.cursor()
+    
+    c.execute("INSERT INTO conversations (user_id, message, response) VALUES (?, ?, ?)",
+              (user_id, message, response))
+    
+    conn.commit()
+    conn.close()</code>
+                </div>
+                
+                <h3>Análisis de sentimientos</h3>
+                <p>Podemos analizar el estado emocional del usuario para responder de manera más adecuada:</p>
+                <div class="code-block">
+                    <code>from textblob import TextBlob
+from textblob.sentiments import NaiveBayesAnalyzer
+
+def analyze_sentiment(text):
+    # Usando el analizador de Bayes Naive (más preciso pero más lento)
+    blob = TextBlob(text, analyzer=NaiveBayesAnalyzer())
+    
+    if blob.sentiment.p_pos > 0.6:
+        return "positive"
+    elif blob.sentiment.p_neg > 0.6:
+        return "negative"
+    else:
+        return "neutral"
+
+# Ejemplo de uso
+user_message = "Estoy muy contento con este servicio"
+sentiment = analyze_sentiment(user_message)
+if sentiment == "positive":
+    response = "¡Me alegra saber que estás contento! ¿En qué más puedo ayudarte?"
+elif sentiment == "negative":
+    response = "Lamento escuchar eso. ¿Cómo puedo mejorar tu experiencia?"
+else:
+    response = "Gracias por tu mensaje. ¿En qué puedo ayudarte?"</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Proyecto final</h4>
+                    <p>Combina todo lo aprendido para crear un chatbot especializado en un área de tu interés (ej: asistente de cocina, bot de soporte técnico, guía turístico virtual) con:</p>
+                    <ul>
+                        <li>Procesamiento de lenguaje natural</li>
+                        <li>Interfaz web con Flask</li>
+                        <li>Integración con al menos una API externa</li>
+                        <li>Persistencia de datos</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev8">Anterior</button>
+                <button class="nav-btn" id="next8">Finalizar</button>
+            </div>
+        </div>
+        
+        <!-- Mensaje de finalización -->
+        <div class="completion-message" id="completion-message">
+            <h2>¡Felicidades!</h2>
+            <p>Has completado el microcurso "Aplicación de Chatbots con Python". Ahora tienes los conocimientos para crear chatbots desde simples hasta avanzados.</p>
+            <p>Continúa practicando y explorando las posibilidades de los chatbots inteligentes.</p>
+            <button class="certificate-btn" id="certificate-btn">Obtener Certificado</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const totalLessons = 8;
+            let currentLesson = 1;
+            
+            // Actualizar contador de lecciones
+            document.getElementById('total-lessons').textContent = totalLessons;
+            
+            // Función para mostrar lección
+            function showLesson(lessonNumber) {
+                // Ocultar todas las lecciones
+                document.querySelectorAll('.lesson-container').forEach(lesson => {
+                    lesson.classList.remove('active');
+                });
+                
+                // Mostrar lección actual
+                document.getElementById(`lesson${lessonNumber}`).classList.add('active');
+                
+                // Actualizar contador
+                document.getElementById('current-lesson').textContent = lessonNumber;
+                
+                // Actualizar barra de progreso
+                const progressPercentage = (lessonNumber / totalLessons) * 100;
+                document.getElementById('progress').style.width = `${progressPercentage}%`;
+                
+                // Manejar botones de navegación
+                if (lessonNumber === 1) {
+                    document.getElementById(`prev${lessonNumber}`).disabled = true;
+                } else {
+                    document.getElementById(`prev${lessonNumber}`).disabled = false;
+                }
+                
+                if (lessonNumber === totalLessons) {
+                    document.getElementById(`next${lessonNumber}`).textContent = 'Finalizar';
+                } else {
+                    document.getElementById(`next${lessonNumber}`).textContent = 'Siguiente';
+                }
+            }
+            
+            // Configurar eventos de navegación
+            for (let i = 1; i <= totalLessons; i++) {
+                // Botones Siguiente
+                const nextBtn = document.getElementById(`next${i}`);
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        if (i === totalLessons) {
+                            // Mostrar mensaje de finalización
+                            document.querySelectorAll('.lesson-container').forEach(lesson => {
+                                lesson.classList.remove('active');
+                            });
+                            document.getElementById('completion-message').style.display = 'block';
+                        } else {
+                            currentLesson = i + 1;
+                            showLesson(currentLesson);
+                        }
+                    });
+                }
+                
+                // Botones Anterior
+                const prevBtn = document.getElementById(`prev${i}`);
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        currentLesson = i - 1;
+                        showLesson(currentLesson);
+                    });
+                }
+            }
+            
+            // Botón de certificado
+            document.getElementById('certificate-btn').addEventListener('click', function() {
+                alert('¡Certificado generado! Gracias por completar el curso.');
+                // En una implementación real, aquí iría la lógica para generar un certificado PDF
+            });
+            
+            // Mostrar primera lección al cargar
+            showLesson(1);
+        });
+    </script>
+</body>
+</html>
