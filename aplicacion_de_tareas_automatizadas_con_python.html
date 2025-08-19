@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcurso: Tareas Automatizadas en Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comfortaa', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .course-content {
+            padding: 30px;
+        }
+
+        .control-img img {
+            width: 200px;
+            height: 150px;
+            border-radius: 50px;
+            box-shadow: 2px 2px 10px rgba(255, 0, 0, 0.9);
+        }
+
+        .whatsappbtn .btn{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: greenyellow;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: "comfortaa";
+            transition: background-color 0.9s;
+        }
+        
+        .whatsappbtn .btn:hover{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: greenyellow;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: "comfortaa";
+            transition: background-color 0.9s;
+        }
+
+        .lesson {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .lesson.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            margin: 20px 0 15px;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        .note {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning {
+            background-color: #ffebee;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .exercise {
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .exercise h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-color);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #bdc3c7;
+        }
+
+        .btn-disabled {
+            background-color: #bdc3c7;
+            color: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .lesson-indicator {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toc {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style-type: none;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .toc li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        .toc li a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+
+        .completion-message h2 {
+            color: var(--success-color);
+            border: none;
+        }
+
+        .completion-message p {
+            margin-bottom: 20px;
+        }
+
+        .checkmark {
+            font-size: 80px;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Aplicación de Tareas Automatizadas en Python</h1>
+            <p class="subtitle">Microcurso práctico para automatizar tus flujos de trabajo</p>
+                <p><strong><center>© 2025 Creado por Profesor Bill Papas.</center></strong>
+                    <center>© 2025 Todos los derechos reservados.</center>
+                    </p>
+                    
+                    <a href="index.html" class="button">Volveral Inicio</a>
+<style>
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background: #0055aa;
+  }
+</style>
+        </header>
+
+        <div class="course-content">
+            <div class="toc">
+                <h3>Tabla de Contenidos</h3>
+                <ul id="toc-list">
+                    <!-- Se llena dinámicamente con JavaScript -->
+                </ul>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="lesson-indicator" id="lesson-indicator">Lección 1 de 10</div>
+
+            <!-- Lección 1 -->
+            <div class="lesson active" id="lesson1">
+                <h2>Introducción a la Automatización con Python</h2>
+                <p>La automatización de tareas es el proceso de crear sistemas que ejecuten trabajos repetitivos sin
+                    intervención humana. Python es ideal para automatización debido a su sintaxis clara y gran
+                    ecosistema de librerías.</p>
+
+                <h3>¿Por qué automatizar?</h3>
+                <ul>
+                    <li>Ahorra tiempo al eliminar tareas repetitivas</li>
+                    <li>Reduce errores humanos</li>
+                    <li>Permite enfocarse en trabajos de mayor valor</li>
+                    <li>Facilita la escalabilidad de procesos</li>
+                </ul>
+
+                <h3>Casos comunes de automatización</h3>
+                <div class="code-block">
+                    <code># Ejemplos de tareas automatizables:
+1. Procesamiento y transformación de datos
+2. Extracción de información de sitios web (web scraping)
+3. Manipulación de archivos y carpetas
+4. Envío automatizado de emails
+5. Ejecución programada de tareas
+6. Interacción con APIs
+7. Generación de reportes
+8. Monitoreo de sistemas</code>
+                </div>
+
+                <div class="note">
+                    <p><strong>Nota:</strong> Antes de automatizar, evalúa si el tiempo invertido en crear el script se
+                        justifica por el tiempo que ahorrará a futuro.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio de Reflexión</h4>
+                    <p>Piensa en 3 tareas repetitivas que realizas en tu trabajo o estudios que podrían automatizarse.
+                        Anótalas para considerarlas más adelante en el curso.</p>
+                </div>
+            </div>
+
+            <!-- Lección 2 -->
+            <div class="lesson" id="lesson2">
+                <h2>Configuración del Entorno</h2>
+                <p>Para comenzar a automatizar con Python, necesitamos configurar correctamente nuestro entorno de
+                    desarrollo.</p>
+
+                <h3>Instalación de Python</h3>
+                <p>Descarga la última versión de Python desde <a href="https://www.python.org/downloads/"
+                        target="_blank">python.org</a>. Durante la instalación:</p>
+                <ul>
+                    <li>Marca la opción "Add Python to PATH"</li>
+                    <li>Selecciona "Install Now"</li>
+                </ul>
+
+                <h3>Verificación de la instalación</h3>
+                <div class="code-block">
+                    <code># En Windows abre CMD, en Mac/Linux abre Terminal
+python --version
+# Deberías ver algo como: Python 3.9.7</code>
+                </div>
+
+                <h3>Entornos virtuales</h3>
+                <p>Es buena práctica usar entornos virtuales para aislar las dependencias de cada proyecto:</p>
+                <div class="code-block">
+                    <code># Crear un entorno virtual
+python -m venv mi_entorno
+
+# Activar el entorno (Windows)
+mi_entorno\Scripts\activate
+
+# Activar el entorno (Mac/Linux)
+source mi_entorno/bin/activate</code>
+                </div>
+
+                <div class="warning">
+                    <p><strong>Importante:</strong> Siempre activa tu entorno virtual antes de instalar paquetes o
+                        ejecutar tus scripts de automatización.</p>
+                </div>
+
+                <h3>Editor de código recomendado</h3>
+                <p>VS Code es una excelente opción con gran soporte para Python:</p>
+                <ol>
+                    <li>Descarga e instala VS Code</li>
+                    <li>Instala la extensión "Python" de Microsoft</li>
+                    <li>Instala la extensión "Pylance" para mejores características de autocompletado</li>
+                </ol>
+            </div>
+
+            <!-- Lección 3 -->
+            <div class="lesson" id="lesson3">
+                <h2>Automatización Básica de Archivos</h2>
+                <p>Una de las automatizaciones más útiles es la manipulación de archivos y directorios.</p>
+
+                <h3>Módulos esenciales</h3>
+                <div class="code-block">
+                    <code>import os       # Para operaciones del sistema operativo
+import shutil   # Para operaciones de archivos avanzadas
+import glob     # Para búsqueda de archivos con patrones</code>
+                </div>
+
+                <h3>Ejemplos prácticos</h3>
+                <p>Listar archivos en un directorio:</p>
+                <div class="code-block">
+                    <code>archivos = os.listdir('mi_directorio')
+for archivo in archivos:
+    print(archivo)</code>
+                </div>
+
+                <p>Crear un directorio si no existe:</p>
+                <div class="code-block">
+                    <code>if not os.path.exists('nuevo_directorio'):
+    os.makedirs('nuevo_directorio')</code>
+                </div>
+
+                <p>Mover todos los archivos de un tipo a otra carpeta:</p>
+                <div class="code-block">
+                    <code>for archivo in glob.glob('*.txt'):
+    shutil.move(archivo, 'directorio_destino')</code>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio Práctico</h4>
+                    <p>Crea un script que:</p>
+                    <ol>
+                        <li>Cree una carpeta llamada "backup" si no existe</li>
+                        <li>Copie todos los archivos .pdf de tu directorio actual a la carpeta backup</li>
+                        <li>Renombre los archivos copiados añadiendo "_backup" antes de la extensión</li>
+                    </ol>
+                </div>
+
+                <div class="note">
+                    <p><strong>Tip:</strong> Usa <code>os.path.join()</code> para crear rutas compatibles con cualquier
+                        sistema operativo.</p>
+                </div>
+            </div>
+
+            <!-- Lección 4 -->
+            <div class="lesson" id="lesson4">
+                <h2>Automatización con Pandas para Datos</h2>
+                <p>Pandas es la librería más popular para manipulación y análisis de datos en Python.</p>
+
+                <h3>Instalación de Pandas</h3>
+                <div class="code-block">
+                    <code>pip install pandas</code>
+                </div>
+
+                <h3>Ejemplos de automatización con datos</h3>
+                <p>Leer un archivo CSV:</p>
+                <div class="code-block">
+                    <code>import pandas as pd
+
+df = pd.read_csv('datos.csv')
+print(df.head())</code>
+                </div>
+
+                <p>Procesamiento básico:</p>
+                <div class="code-block">
+                    <code># Filtrar datos
+ventas_altas = df[df['ventas'] > 1000]
+
+# Agrupar datos
+ventas_por_region = df.groupby('region')['ventas'].sum()
+
+# Aplicar transformaciones
+df['ventas_con_iva'] = df['ventas'] * 1.16</code>
+                </div>
+
+                <p>Generar reporte automatizado:</p>
+                <div class="code-block">
+                    <code># Crear un resumen estadístico
+resumen = df.describe()
+
+# Guardar en Excel
+with pd.ExcelWriter('reporte.xlsx') as writer:
+    df.to_excel(writer, sheet_name='Datos Completos')
+    resumen.to_excel(writer, sheet_name='Resumen')</code>
+                </div>
+
+                <div class="success">
+                    <p><strong>Excelente uso:</strong> Puedes programar este script para que se ejecute diariamente y
+                        siempre tengas reportes actualizados.</p>
+                </div>
+            </div>
+
+            <!-- Lección 5 -->
+            <div class="lesson" id="lesson5">
+                <h2>Automatización de Emails</h2>
+                <p>Enviar emails automáticamente puede ahorrarte mucho tiempo en comunicaciones rutinarias.</p>
+
+                <h3>Configuración inicial</h3>
+                <div class="code-block">
+                    <code>import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart</code>
+                </div>
+
+                <h3>Ejemplo básico</h3>
+                <div class="code-block">
+                    <code>def enviar_email(destinatario, asunto, cuerpo):
+    # Configuración
+    remitente = 'tu_email@gmail.com'
+    password = 'tu_contraseña'  # Considera usar variables de entorno
+    
+    # Crear mensaje
+    mensaje = MIMEMultipart()
+    mensaje['From'] = remitente
+    mensaje['To'] = destinatario
+    mensaje['Subject'] = asunto
+    mensaje.attach(MIMEText(cuerpo, 'plain'))
+    
+    # Enviar email
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(remitente, password)
+        server.send_message(mensaje)
+    
+    print(f"Email enviado a {destinatario}")
+
+# Uso
+enviar_email('cliente@example.com', 'Recordatorio de pago', 'Estimado cliente...')</code>
+                </div>
+
+                <div class="warning">
+                    <p><strong>Seguridad:</strong> Nunca dejes contraseñas hardcodeadas en tus scripts. Usa variables de
+                        entorno o un gestor de secretos.</p>
+                </div>
+
+                <h3>Envío masivo personalizado</h3>
+                <div class="code-block">
+                    <code># Leer datos de destinatarios
+import pandas as pd
+datos = pd.read_csv('clientes.csv')
+
+# Enviar email a cada cliente
+for _, fila in datos.iterrows():
+    cuerpo = f"""Estimado {fila['nombre']},
+    
+Su factura por ${fila['monto']} vence el {fila['fecha_vencimiento']}.
+Por favor realice el pago a tiempo.
+    
+Saludos."""
+    
+    enviar_email(fila['email'], 'Recordatorio de pago', cuerpo)</code>
+                </div>
+            </div>
+
+            <!-- Lección 6 -->
+            <div class="lesson" id="lesson6">
+                <h2>Web Scraping Básico</h2>
+                <p>Extraer información de sitios web automáticamente puede ser muy útil para monitoreo o recolección de
+                    datos.</p>
+
+                <h3>Librerías necesarias</h3>
+                <div class="code-block">
+                    <code>pip install requests beautifulsoup4</code>
+                </div>
+
+                <h3>Ejemplo práctico</h3>
+                <div class="code-block">
+                    <code>import requests
+from bs4 import BeautifulSoup
+
+url = 'https://ejemplo.com/noticias'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Extraer todos los títulos de noticias
+titulares = soup.find_all('h2', class_='titular-noticia')
+
+for titular in titulares:
+    print(titular.text.strip())</code>
+                </div>
+
+                <div class="note">
+                    <p><strong>Ética del web scraping:</strong> Siempre revisa el archivo robots.txt del sitio (ej.
+                        https://ejemplo.com/robots.txt) y respeta las reglas de scraping del sitio.</p>
+                </div>
+
+                <h3>Guardar datos extraídos</h3>
+                <div class="code-block">
+                    <code>import csv
+
+with open('noticias.csv', 'w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Título', 'Enlace'])
+    
+    for titular in titulares:
+        enlace = titular.find('a')['href']
+        writer.writerow([titular.text.strip(), enlace])</code>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio Avanzado</h4>
+                    <p>Crea un script que:</p>
+                    <ol>
+                        <li>Extraiga los productos y precios de una página de e-commerce</li>
+                        <li>Guarde los datos en un CSV</li>
+                        <li>Te envíe un email si encuentra algún producto por debajo de un precio determinado</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Lección 7 -->
+            <div class="lesson" id="lesson7">
+                <h2>Programación de Tareas</h2>
+                <p>Podemos programar la ejecución automática de nuestros scripts en horarios específicos.</p>
+
+                <h3>Windows: Programador de Tareas</h3>
+                <ol>
+                    <li>Abre el Programador de Tareas</li>
+                    <li>Crea una tarea básica</li>
+                    <li>Configura el trigger (diario, semanal, etc.)</li>
+                    <li>En la acción, selecciona "Iniciar un programa" y elige python.exe</li>
+                    <li>En "Agregar argumentos", pon la ruta a tu script</li>
+                </ol>
+
+                <h3>Linux/Mac: Cron</h3>
+                <p>Edita tu crontab:</p>
+                <div class="code-block">
+                    <code>crontab -e</code>
+                </div>
+
+                <p>Agrega una línea como esta (ejecuta diario a las 9am):</p>
+                <div class="code-block">
+                    <code>0 9 * * * /ruta/a/python /ruta/a/tu/script.py</code>
+                </div>
+
+                <h3>Python puro: schedule</h3>
+                <div class="code-block">
+                    <code>pip install schedule</code>
+                </div>
+
+                <div class="code-block">
+                    <code>import schedule
+import time
+
+def tarea_diaria():
+    print("Ejecutando tarea programada...")
+    # Aquí va tu código de automatización
+
+# Programar la tarea
+schedule.every().day.at("09:00").do(tarea_diaria)
+
+# Bucle para mantener el script corriendo
+while True:
+    schedule.run_pending()
+    time.sleep(60)</code>
+                </div>
+
+                <div class="warning">
+                    <p><strong>Nota:</strong> Para scripts de larga duración con schedule, considera usar un proceso en
+                        segundo plano o un servidor.</p>
+                </div>
+            </div>
+
+            <!-- Lección 8 -->
+            <div class="lesson" id="lesson8">
+                <h2>Automatización con APIs</h2>
+                <p>Las APIs permiten interactuar con servicios web de manera programática.</p>
+
+                <h3>Consumo básico de API</h3>
+                <div class="code-block">
+                    <code>import requests
+
+url = "https://api.ejemplo.com/data"
+params = {
+    "api_key": "tu_api_key",
+    "fecha": "2023-01-01"
+}
+
+response = requests.get(url, params=params)
+datos = response.json()
+
+print(datos)</code>
+                </div>
+
+                <h3>Ejemplo con API de clima</h3>
+                <div class="code-block">
+                    <code>def obtener_clima(ciudad):
+    api_key = "tu_api_key"  # Usa variables de entorno
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={ciudad}&appid={api_key}&units=metric"
+    
+    response = requests.get(url)
+    if response.status_code == 200:
+        datos = response.json()
+        temp = datos['main']['temp']
+        return f"La temperatura en {ciudad} es {temp}°C"
+    else:
+        return "No se pudo obtener el clima"
+
+# Uso
+print(obtener_clima("Madrid"))</code>
+                </div>
+
+                <h3>Automatización con APIs</h3>
+                <div class="code-block">
+                    <code># Ejemplo: Monitoreo de precios de criptomonedas
+import time
+
+def monitorear_cripto(cripto, limite):
+    while True:
+        url = f"https://api.coingecko.com/api/v3/simple/price?ids={cripto}&vs_currencies=usd"
+        response = requests.get(url)
+        precio = response.json()[cripto]['usd']
+        
+        if precio < limite:
+            enviar_email("tu_email@example.com", 
+                        f"Alerta de precio: {cripto}", 
+                        f"El precio de {cripto} ha bajado a ${precio}")
+        
+        time.sleep(3600)  # Esperar 1 hora</code>
+                </div>
+            </div>
+
+            <!-- Lección 9 -->
+            <div class="lesson" id="lesson9">
+                <h2>Automatización Avanzada</h2>
+                <p>Combinando múltiples técnicas para flujos de trabajo complejos.</p>
+
+                <h3>Ejemplo: Sistema de Reportes Automatizado</h3>
+                <div class="code-block">
+                    <code>import pandas as pd
+import smtplib
+from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+
+def generar_reporte():
+    # 1. Leer datos
+    ventas = pd.read_csv('ventas_diarias.csv')
+    
+    # 2. Procesar datos
+    resumen = ventas.groupby('region').agg({
+        'ventas': 'sum',
+        'clientes': 'nunique'
+    })
+    resumen['venta_por_cliente'] = resumen['ventas'] / resumen['clientes']
+    
+    # 3. Generar Excel
+    fecha = datetime.now().strftime('%Y-%m-%d')
+    nombre_archivo = f"reporte_ventas_{fecha}.xlsx"
+    resumen.to_excel(nombre_archivo)
+    
+    return nombre_archivo
+
+def enviar_reporte(destinatarios, archivo):
+    msg = MIMEMultipart()
+    msg['From'] = 'reportes@empresa.com'
+    msg['To'] = ", ".join(destinatarios)
+    msg['Subject'] = f"Reporte de ventas {datetime.now().strftime('%d/%m/%Y')}"
+    
+    cuerpo = "Adjunto encontrarás el reporte diario de ventas."
+    msg.attach(MIMEText(cuerpo, 'plain'))
+    
+    with open(archivo, 'rb') as f:
+        attach = MIMEApplication(f.read(), _subtype="xlsx")
+        attach.add_header('Content-Disposition', 'attachment', filename=archivo)
+        msg.attach(attach)
+    
+    with smtplib.SMTP('smtp.empresa.com', 587) as server:
+        server.send_message(msg)
+
+# Ejecutar
+archivo_reporte = generar_reporte()
+enviar_reporte(['gerente@empresa.com', 'ventas@empresa.com'], archivo_reporte)</code>
+                </div>
+
+                <h3>Automatización con Interfaz Gráfica</h3>
+                <p>Para tareas que requieren interacción con aplicaciones de escritorio, podemos usar PyAutoGUI:</p>
+                <div class="code-block">
+                    <code>pip install pyautogui</code>
+                </div>
+
+                <div class="code-block">
+                    <code>import pyautogui
+import time
+
+# Ejemplo: Automatizar entrada de datos en una aplicación
+def llenar_formulario(datos):
+    # Dar tiempo para cambiar a la aplicación
+    time.sleep(5)
+    
+    for campo, valor in datos.items():
+        pyautogui.write(str(valor))
+        pyautogui.press('tab')
+    
+    pyautogui.press('enter')
+
+# Uso
+datos_formulario = {
+    'nombre': 'Juan Pérez',
+    'email': 'juan@example.com',
+    'telefono': '5551234567'
+}
+
+llenar_formulario(datos_formulario)</code>
+                </div>
+            </div>
+
+            <!-- Lección 10 -->
+            <div class="lesson" id="lesson10">
+                <h2>Buenas Prácticas y Conclusión</h2>
+                <p>Para mantener tus scripts de automatización efectivos y mantenibles.</p>
+
+                <h3>Buenas prácticas</h3>
+                <ul>
+                    <li><strong>Manejo de errores:</strong> Siempre incluye try-except para manejar casos inesperados
+                    </li>
+                    <li><strong>Logging:</strong> Implementa un sistema de registro para monitorear ejecuciones</li>
+                    <li><strong>Configuración externa:</strong> Usa archivos .env o .json para configuración</li>
+                    <li><strong>Documentación:</strong> Comenta tu código y escribe instrucciones claras</li>
+                    <li><strong>Pruebas:</strong> Desarrolla pruebas unitarias para tus funciones clave</li>
+                    <li><strong>Seguridad:</strong> Nunca expongas credenciales en el código</li>
+                </ul>
+
+                <h3>Ejemplo de logging</h3>
+                <div class="code-block">
+                    <code>import logging
+
+# Configurar logging
+logging.basicConfig(
+    filename='automation.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+def tarea_automatizada():
+    try:
+        logging.info("Iniciando tarea automatizada")
+        # Código de la tarea
+        logging.info("Tarea completada exitosamente")
+    except Exception as e:
+        logging.error(f"Error en tarea automatizada: {str(e)}")</code>
+                </div>
+
+                <h3>Pasos siguientes</h3>
+                <ol>
+                    <li>Identifica una tarea repetitiva en tu trabajo o vida personal</li>
+                    <li>Descompónla en pasos pequeños</li>
+                    <li>Investiga qué módulos de Python pueden ayudarte</li>
+                    <li>Implementa una solución mínima viable</li>
+                    <li>Itera y mejora tu solución</li>
+                </ol>
+
+                <div class="success">
+                    
+                </div>
+            </div>
+
+            <!-- Mensaje de finalización -->
+            <div class="completion-message" id="completion-message">
+                <div class="checkmark">✓</div>
+                <h2>¡Curso Completo!</h2>
+                <p>Felicidades por completar este microcurso de Automatización con Python. Ahora tienes las herramientas
+                    para comenzar a automatizar tus tareas repetitivas.</p>
+                <p>Recuerda que la mejor manera de aprender es practicando. Elige un proyecto y comienza a automatizar
+                    hoy mismo.</p>
+                <button class="btn btn-primary" id="restart-course">Volver al Inicio</button>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prev-lesson" disabled>← Lección Anterior</button>
+                <button class="btn btn-primary" id="next-lesson">Siguiente Lección →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const lessons = document.querySelectorAll('.lesson');
+            const prevBtn = document.getElementById('prev-lesson');
+            const nextBtn = document.getElementById('next-lesson');
+            const restartBtn = document.getElementById('restart-course');
+            const progressBar = document.getElementById('progress-bar');
+            const lessonIndicator = document.getElementById('lesson-indicator');
+            const tocList = document.getElementById('toc-list');
+            const completionMessage = document.getElementById('completion-message');
+
+            let currentLesson = 0;
+            const totalLessons = lessons.length;
+
+            // Generar tabla de contenidos
+            lessons.forEach((lesson, index) => {
+                const title = lesson.querySelector('h2').textContent;
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#lesson${index + 1}`;
+                a.textContent = title;
+                a.dataset.index = index;
+                li.appendChild(a);
+                tocList.appendChild(li);
+
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    goToLesson(parseInt(a.dataset.index));
+                });
+            });
+
+            // Actualizar interfaz
+            function updateUI() {
+                // Mostrar/ocultar lecciones
+                lessons.forEach((lesson, index) => {
+                    if (index === currentLesson) {
+                        lesson.classList.add('active');
+                    } else {
+                        lesson.classList.remove('active');
+                    }
+                });
+
+                // Actualizar botones
+                prevBtn.disabled = currentLesson === 0;
+                nextBtn.textContent = currentLesson === totalLessons - 1 ? 'Finalizar Curso' : 'Siguiente Lección →';
+
+                // Actualizar progreso
+                const progress = ((currentLesson + 1) / totalLessons) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                // Actualizar indicador
+                lessonIndicator.textContent = `Lección ${currentLesson + 1} de ${totalLessons}`;
+
+                // Mostrar mensaje de finalización
+                if (currentLesson === totalLessons - 1 && nextBtn.textContent === 'Finalizar Curso') {
+                    completionMessage.style.display = 'block';
+                    document.querySelector('.navigation').style.display = 'none';
+                } else {
+                    completionMessage.style.display = 'none';
+                    document.querySelector('.navigation').style.display = 'flex';
+                }
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Navegación
+            function goToLesson(index) {
+                if (index >= 0 && index < totalLessons) {
+                    currentLesson = index;
+                    updateUI();
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                goToLesson(currentLesson - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentLesson < totalLessons - 1) {
+                    goToLesson(currentLesson + 1);
+                } else {
+                    completionMessage.style.display = 'block';
+                    document.querySelector('.navigation').style.display = 'none';
+                }
+            });
+
+            restartBtn.addEventListener('click', () => {
+                goToLesson(0);
+                completionMessage.style.display = 'none';
+                document.querySelector('.navigation').style.display = 'flex';
+            });
+
+            // Inicializar
+            updateUI();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online - Productos Destacados</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "comfortaa";
+        }
+        
+        body {
+            font-family: "comfortaa";
+            background-color: #ffffff;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            font-family: "comfortaa";
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 2.5rem;
+        }
+        
+        .productos-container {
+            font-family: "comfortaa";
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .producto-card {
+            font-family: "comfortaa";
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+            display: flex;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .producto-card:hover {
+            font-family: "comfortaa";
+            transform: translateY(-10px);
+            box-shadow: 0 45px 90px rgba(0,0,0,0.15);
+        }
+        
+        .producto-imagen {
+            font-family: "comfortaa";
+            width: 40%;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .producto-info {
+            font-family: "comfortaa";
+            width: 60%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .producto-titulo {
+            font-family: "comfortaa";
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 5px;
+        }
+        
+        .producto-subtitulo {
+            font-family: "comfortaa";
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .producto-descripcion {
+            font-family: "comfortaa";
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .producto-precio {
+            font-family: "comfortaa";
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2e86de;
+            margin-bottom: 15px;
+        }
+        
+        .producto-detalles {
+            font-family: "comfortaa";
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .producto-detalles li {
+            font-family: "comfortaa";
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .producto-detalles li::before {
+            font-family: "comfortaa";
+            content: "•";
+            color: #2e86de;
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .boton-comprar {
+            font-family: "comfortaa";
+            background-color: #2e86de;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .boton-comprar:hover {
+            font-family: "comfortaa";
+            background-color: greenyellow;
+            color: black;
+        }
+        
+        .producto-stock {
+            font-family: "comfortaa";
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: #27ae60;
+            font-weight: 500;
+        }
+        
+        .producto-stock.agotado {
+            font-family: "comfortaa";
+            color: #e74c3c;
+        }
+        
+        .producto-envio {
+            font-family: "comfortaa";
+            font-size: 0.8rem;
+            color: #f39c12;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .producto-card {
+                font-family: "comfortaa";
+                flex-direction: column;
+            }
+            
+            .producto-imagen {
+                font-family: "comfortaa";
+                width: 100%;
+                height: 200px;
+            }
+            
+            .producto-info {
+                font-family: "comfortaa";
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <center><h2>Productos Destacados</h2></center> <br><br>
+    <center><h1>X.E.E.D</h1></center>
+    <center><h3>Aprendizaje evolutivo extendido y toma de decisiones</h3></center> <br><br>
+    
+    <div class="productos-container">
+        <!-- Producto 1 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">WordPress</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">...pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>Diseño web personalizado</li>
+                    <li>Configuración técnica</li>
+                    <li>Responsive y multiplataforma</li>
+                    <li>Capacitación y soporte básico</li>
+                </ul>
+                <span class="producto-precio">€147.00</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+        
+        <!-- Producto 2 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">WooCommerce</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">...pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>Diseño y Desarrollo del Sitio Web</li>
+                    <li>Configuración de WooCommerce</li>
+                    <li>SEO y Rendimiento</li>
+                    <li>Capacitación y Soporte Básico</li>
+                </ul>
+                <span class="producto-precio">€258.00</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+        
+        <!-- Producto 3 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">Análisis de Datos</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">...pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>Diseño Web Personalizado con Integración de Datos</li>
+                    <li>Análisis de Datos y Business Intelligence (BI)</li>
+                    <li>Automatización y APIs</li>
+                    <li>SEO y Tracking de Métricas</li>
+                </ul>
+                <span class="producto-precio">€369.00</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+        
+        <!-- Producto 4 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">Aplicaciones Web</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">...pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>Desarrollo de Aplicaciones Web a Medida</li>
+                    <li>Alojamiento y Gestión</li>
+                    <li>Mantenimiento y Soporte Continuo</li>
+                    <li>Integración con APIs y Sistemas Externos</li>
+                </ul>
+                <span class="producto-precio">€740.00</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+        
+        <!-- Producto 5 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">Sistemas I.A</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>Modelos de IA Personalizados</li>
+                    <li>Automatización de Procesos</li>
+                    <li>Soporte y Mantenimiento Continuo</li>
+                    <li>Chatbots o Asistentes Virtuales</li>
+                </ul>
+                <span class="producto-precio">€852.00</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+        
+        <!-- Producto 6 -->
+        <div class="producto-card">
+            <div class="producto-imagen" style="background-image: url('logo.jpg');"></div>
+            <div class="producto-info">
+                <h2 class="producto-titulo">MicroCursos</h2> <br>
+                <p class="producto-subtitulo">en construcción...</p>
+                <p class="producto-descripcion">...pronto estaremos online!</p>
+                <ul class="producto-detalles">
+                    <li>MicroCursos Breves y Enfocados</li>
+                    <li>Acceso a una Plataforma Digital</li>
+                    <li>Soporte y Comunidad</li>
+                    <li>Actualizaciones Periódicas</li>
+                </ul>
+                <span class="producto-precio">...preguntar...</span>
+                <a href="index.html" class="boton-comprar">Añadir al carrito</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

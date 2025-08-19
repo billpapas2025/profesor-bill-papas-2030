@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Completo de Web Scraping en Python</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comfortaa', cursive;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .course-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .course-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .course-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .course-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .lesson-container {
+            padding: 30px;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .lesson {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .lesson.active {
+            display: block;
+        }
+        
+        .lesson h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .lesson h3 {
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+            font-size: 1.4rem;
+        }
+        
+        .lesson p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .lesson ul, .lesson ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .lesson li {
+            margin-bottom: 8px;
+        }
+        
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-block code {
+            display: block;
+        }
+        
+        .note {
+            background: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        .exercise {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        
+        .exercise h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: var(--light-color);
+            border-top: 1px solid #ddd;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Comfortaa', cursive;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: #ddd;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .lesson-counter {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-family: 'Comfortaa', cursive;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .code-tabs {
+            margin: 20px 0;
+        }
+        
+        .code-tab-content {
+            display: none;
+        }
+        
+        .code-tab-content.active {
+            display: block;
+        }
+        
+        .code-tabs-buttons {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+        }
+        
+        .code-tab-btn {
+            padding: 8px 15px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .code-tab-btn.active {
+            background: #282c34;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <div class="course-header">
+            <h1>Web Scraping en Python</h1>
+            <p>Curso completo desde cero hasta nivel avanzado</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="lesson-counter">
+            Lección <span id="current-lesson">1</span> de <span id="total-lessons">10</span>
+        </div>
+        
+        <div class="lesson-container">
+            <!-- Lección 1 -->
+            <div class="lesson active" id="lesson1">
+                <h2>Introducción al Web Scraping</h2>
+                
+                <p>El web scraping es una técnica para extraer información de sitios web de manera automatizada. En este curso aprenderás a utilizar Python para recolectar datos de la web de forma eficiente y ética.</p>
+                
+                <h3>¿Qué es el Web Scraping?</h3>
+                <p>El web scraping consiste en:</p>
+                <ul>
+                    <li>Acceder a páginas web mediante código</li>
+                    <li>Analizar su estructura HTML</li>
+                    <li>Extraer información específica</li>
+                    <li>Almacenar o procesar los datos obtenidos</li>
+                </ul>
+                
+                <h3>Casos de uso comunes</h3>
+                <ul>
+                    <li>Monitoreo de precios en e-commerce</li>
+                    <li>Recolección de datos para análisis</li>
+                    <li>Automatización de tareas repetitivas</li>
+                    <li>Integración de datos entre sistemas</li>
+                    <li>Investigación académica</li>
+                </ul>
+                
+                <div class="note">
+                    <h4>Consideraciones legales y éticas</h4>
+                    <p>Antes de hacer scraping a un sitio web, revisa su archivo robots.txt (ejemplo: sitio.com/robots.txt) y sus términos de servicio. Respeta las reglas y no sobrecargues los servidores con muchas solicitudes.</p>
+                </div>
+                
+                <h3>Herramientas que usaremos</h3>
+                <ul>
+                    <li><strong>Requests:</strong> Para hacer peticiones HTTP</li>
+                    <li><strong>BeautifulSoup:</strong> Para analizar HTML</li>
+                    <li><strong>Selenium:</strong> Para interactuar con páginas dinámicas</li>
+                    <li><strong>Scrapy:</strong> Framework completo para scraping</li>
+                </ul>
+                
+                <div class="exercise">
+                    <h4>Ejercicio de preparación</h4>
+                    <p>1. Instala Python en tu computadora si no lo tienes (versión 3.6 o superior)</p>
+                    <p>2. Crea un nuevo entorno virtual para este curso</p>
+                    <p>3. Instala las librerías básicas ejecutando: <code>pip install requests beautifulsoup4 selenium scrapy</code></p>
+                </div>
+            </div>
+            
+            <!-- Lección 2 -->
+            <div class="lesson" id="lesson2">
+                <h2>Conceptos Básicos de HTML y HTTP</h2>
+                
+                <p>Para hacer web scraping efectivo, es fundamental entender cómo funcionan las páginas web y el protocolo HTTP.</p>
+                
+                <h3>Estructura básica de HTML</h3>
+                <p>El HTML está compuesto por elementos (tags) que forman una estructura jerárquica (DOM - Document Object Model).</p>
+                
+                <div class="code-block">
+                    <code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Ejemplo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="contenido"&gt;
+        &lt;h1 class="titulo"&gt;Título principal&lt;/h1&gt;
+        &lt;p&gt;Este es un párrafo con un &lt;a href="https://ejemplo.com"&gt;enlace&lt;/a&gt;.&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Elemento 1&lt;/li&gt;
+            &lt;li&gt;Elemento 2&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code>
+                </div>
+                
+                <h3>Selectores comunes</h3>
+                <ul>
+                    <li><strong>Por etiqueta:</strong> <code>h1</code>, <code>p</code>, <code>a</code></li>
+                    <li><strong>Por clase:</strong> <code>.titulo</code></li>
+                    <li><strong>Por ID:</strong> <code>#contenido</code></li>
+                    <li><strong>Por atributo:</strong> <code>[href="https://ejemplo.com"]</code></li>
+                </ul>
+                
+                <h3>Protocolo HTTP</h3>
+                <p>Cuando visitas una página web, tu navegador hace una petición HTTP al servidor, que responde con el contenido HTML.</p>
+                
+                <div class="code-tabs">
+                    <div class="code-tabs-buttons">
+                        <button class="code-tab-btn active" onclick="openCodeTab(event, 'http-request')">Solicitud HTTP</button>
+                        <button class="code-tab-btn" onclick="openCodeTab(event, 'http-response')">Respuesta HTTP</button>
+                    </div>
+                    
+                    <div class="code-tab-content active" id="http-request">
+                        <div class="code-block">
+                            <code>GET /pagina-ejemplo HTTP/1.1
+Host: www.ejemplo.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+Accept-Language: es-ES</code>
+                        </div>
+                    </div>
+                    
+                    <div class="code-tab-content" id="http-response">
+                        <div class="code-block">
+                            <code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1234
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+...contenido HTML...
+&lt;/html&gt;</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Códigos de estado HTTP</h3>
+                <ul>
+                    <li><strong>200:</strong> OK - Solicitud exitosa</li>
+                    <li><strong>301/302:</strong> Redirección</li>
+                    <li><strong>403:</strong> Prohibido - Acceso denegado</li>
+                    <li><strong>404:</strong> No encontrado</li>
+                    <li><strong>500:</strong> Error interno del servidor</li>
+                </ul>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Abre las herramientas de desarrollador de tu navegador (F12)</p>
+                    <p>2. Visita una página web y examina su estructura HTML</p>
+                    <p>3. Identifica elementos usando selectores CSS</p>
+                    <p>4. Revisa las peticiones HTTP en la pestaña Network</p>
+                </div>
+            </div>
+            
+            <!-- Lección 3 -->
+            <div class="lesson" id="lesson3">
+                <h2>Primeros Pasos con Requests y BeautifulSoup</h2>
+                
+                <p>Vamos a comenzar con las dos bibliotecas más utilizadas para web scraping en Python: Requests para obtener páginas web y BeautifulSoup para analizarlas.</p>
+                
+                <h3>Instalación</h3>
+                <div class="code-block">
+                    <code>pip install requests beautifulsoup4</code>
+                </div>
+                
+                <h3>Obtener una página web con Requests</h3>
+                <div class="code-block">
+                    <code>import requests
+
+url = 'https://ejemplo.com'
+response = requests.get(url)
+
+print(response.status_code)  # Código de estado HTTP
+print(response.text)        # Contenido HTML de la página</code>
+                </div>
+                
+                <h3>Analizar HTML con BeautifulSoup</h3>
+                <div class="code-block">
+                    <code>from bs4 import BeautifulSoup
+
+# Crear objeto BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Obtener el título de la página
+title = soup.title
+print(title.text)</code>
+                </div>
+                
+                <h3>Métodos básicos de búsqueda</h3>
+                <div class="code-tabs">
+                    <div class="code-tabs-buttons">
+                        <button class="code-tab-btn active" onclick="openCodeTab(event, 'find-method')">find()</button>
+                        <button class="code-tab-btn" onclick="openCodeTab(event, 'find-all-method')">find_all()</button>
+                        <button class="code-tab-btn" onclick="openCodeTab(event, 'select-method')">select()</button>
+                    </div>
+                    
+                    <div class="code-tab-content active" id="find-method">
+                        <div class="code-block">
+                            <code># Encontrar el primer elemento que coincida
+first_paragraph = soup.find('p')
+print(first_paragraph.text)
+
+# Encontrar por clase
+featured = soup.find('div', class_='featured')
+
+# Encontrar por ID
+header = soup.find(id='header')</code>
+                        </div>
+                    </div>
+                    
+                    <div class="code-tab-content" id="find-all-method">
+                        <div class="code-block">
+                            <code># Encontrar todos los elementos que coincidan
+all_links = soup.find_all('a')
+
+for link in all_links:
+    print(link.get('href'))
+
+# Limitar resultados
+three_paragraphs = soup.find_all('p', limit=3)</code>
+                        </div>
+                    </div>
+                    
+                    <div class="code-tab-content" id="select-method">
+                        <div class="code-block">
+                            <code># Usar selectores CSS
+articles = soup.select('div.article')
+
+for article in articles:
+    title = article.select_one('h2.title')
+    print(title.text)
+
+# Selector complejo
+items = soup.select('ul#lista > li.item')</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Obtén la página principal de Wikipedia en español</p>
+                    <p>2. Extrae todos los títulos de las secciones principales</p>
+                    <p>3. Extrae todos los enlaces de la página</p>
+                    <p>4. Cuenta cuántas imágenes hay en la página</p>
+                </div>
+                
+                <div class="note">
+                    <h4>Tip profesional</h4>
+                    <p>Siempre incluye un User-Agent en tus peticiones para identificarte como un scraper legítimo. Puedes usar: <code>headers = {'User-Agent': 'MiScraper/1.0'}</code> y pasarlo a requests.get() como parámetro.</p>
+                </div>
+            </div>
+            
+            <!-- Lección 4 -->
+            <div class="lesson" id="lesson4">
+                <h2>Scraping Avanzado con BeautifulSoup</h2>
+                
+                <p>Ahora que conoces los fundamentos, profundicemos en técnicas más avanzadas de extracción y manipulación de datos.</p>
+                
+                <h3>Navegación por el árbol DOM</h3>
+                <div class="code-block">
+                    <code># Acceder al padre de un elemento
+parent = element.parent
+
+# Obtener hijos directos
+children = element.children
+
+# Obtener todos los descendientes
+descendants = element.descendants
+
+# Navegar entre hermanos
+next_sibling = element.next_sibling
+previous_sibling = element.previous_sibling</code>
+                </div>
+                
+                <h3>Extracción de atributos</h3>
+                <div class="code-block">
+                    <code># Obtener un atributo específico
+link = soup.find('a')
+url = link['href']  # o link.get('href')
+
+# Obtener todos los atributos
+img = soup.find('img')
+all_attributes = img.attrs
+
+# Extraer datos de atributos
+data_id = img.get('data-id', 'default')</code>
+                </div>
+                
+                <h3>Manejo de texto</h3>
+                <div class="code-tabs">
+                    <div class="code-tabs-buttons">
+                        <button class="code-tab-btn active" onclick="openCodeTab(event, 'text-method')">text y get_text()</button>
+                        <button class="code-tab-btn" onclick="openCodeTab(event, 'strings-method')">strings y stripped_strings</button>
+                    </div>
+                    
+                    <div class="code-tab-content active" id="text-method">
+                        <div class="code-block">
+                            <code># Obtener todo el texto de un elemento
+paragraph = soup.find('p')
+print(paragraph.text)  # o paragraph.get_text()
+
+# Con parámetros
+text = paragraph.get_text(separator=' ', strip=True)</code>
+                        </div>
+                    </div>
+                    
+                    <div class="code-tab-content" id="strings-method">
+                        <div class="code-block">
+                            <code># Obtener textos individuales
+for string in paragraph.strings:
+    print(repr(string))
+
+# Textos sin espacios
+for string in paragraph.stripped_strings:
+    print(repr(string))</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Filtros avanzados</h3>
+                <div class="code-block">
+                    <code># Filtrar por función
+def has_class_but_no_id(tag):
+    return tag.has_attr('class') and not tag.has_attr('id')
+
+results = soup.find_all(has_class_but_no_id)
+
+# Filtrar por expresión regular
+import re
+soup.find_all(text=re.compile('importante'))
+soup.find_all(href=re.compile('^https://'))</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Extrae una tabla completa de Wikipedia y conviértela a un DataFrame de pandas</p>
+                    <p>2. Crea una función que reciba una URL y devuelva un diccionario con todos los metadatos de la página (title, description, keywords)</p>
+                    <p>3. Extrae todos los enlaces que contengan "pdf" en su URL</p>
+                </div>
+                
+                <div class="warning">
+                    <h4>Precaución</h4>
+                    <p>Algunas páginas pueden tener HTML mal formado. BeautifulSoup es bastante tolerante, pero para casos extremos considera usar lxml como parser: <code>BeautifulSoup(html, 'lxml')</code></p>
+                </div>
+            </div>
+            
+            <!-- Lección 5 -->
+            <div class="lesson" id="lesson5">
+                <h2>Manejo de Formularios y Sesiones</h2>
+                
+                <p>Muchos sitios web requieren interacción con formularios o mantenimiento de sesiones. Aprenderemos a manejar estos casos.</p>
+                
+                <h3>Enviar formularios con Requests</h3>
+                <div class="code-block">
+                    <code># Datos del formulario
+login_data = {
+    'username': 'tu_usuario',
+    'password': 'tu_contraseña',
+    'csrf_token': 'token_obtenido_del_formulario'
+}
+
+# Enviar POST request
+session = requests.Session()
+response = session.post('https://ejemplo.com/login', data=login_data)
+
+# Verificar login
+if 'Bienvenido' in response.text:
+    print("Login exitoso!")
+else:
+    print("Error en login")</code>
+                </div>
+                
+                <h3>Mantener sesiones</h3>
+                <div class="code-block">
+                    <code># Usar sesión para mantener cookies
+with requests.Session() as session:
+    # Primera petición (login)
+    session.post(login_url, data=login_data)
+    
+    # Peticiones posteriores mantienen la sesión
+    profile_page = session.get(profile_url)
+    print(profile_page.text)</code>
+                </div>
+                
+                <h3>Manejo de CSRF Tokens</h3>
+                <div class="code-block">
+                    <code># Primero obtener la página de login
+login_page = session.get(login_url)
+soup = BeautifulSoup(login_page.text, 'html.parser')
+
+# Extraer el token CSRF
+csrf_token = soup.find('input', {'name': 'csrf_token'})['value']
+
+# Usar el token en el login
+login_data['csrf_token'] = csrf_token
+session.post(login_url, data=login_data)</code>
+                </div>
+                
+                <h3>Subida de archivos</h3>
+                <div class="code-block">
+                    <code># Preparar archivo para subir
+files = {'file': ('report.pdf', open('report.pdf', 'rb'), 'application/pdf')}
+
+# Enviar POST con archivo
+response = session.post(upload_url, files=files)</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Automatiza el login en un sitio web de prueba</p>
+                    <p>2. Extrae información de una página que requiera autenticación</p>
+                    <p>3. Implementa un scraper que navegue por múltiples páginas manteniendo la sesión</p>
+                </div>
+                
+                <div class="warning">
+                    <h4>Seguridad</h4>
+                    <p>Nunca guardes credenciales directamente en tu código. Usa variables de entorno o archivos de configuración seguros.</p>
+                </div>
+            </div>
+            
+            <!-- Lección 6 -->
+            <div class="lesson" id="lesson6">
+                <h2>Scraping de Páginas Dinámicas con Selenium</h2>
+                
+                <p>Cuando las páginas cargan contenido dinámicamente con JavaScript, Requests y BeautifulSoup no son suficientes. Ahí entra Selenium.</p>
+                
+                <h3>Instalación y configuración</h3>
+                <div class="code-block">
+                    <code>pip install selenium</code>
+                </div>
+                <p>Además, necesitarás el driver correspondiente a tu navegador (ChromeDriver para Chrome, GeckoDriver para Firefox).</p>
+                
+                <h3>Configuración básica</h3>
+                <div class="code-block">
+                    <code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+# Configurar el driver (ejemplo para Chrome)
+driver = webdriver.Chrome(executable_path='ruta/a/chromedriver')
+
+# Abrir una página
+driver.get('https://ejemplo.com')</code>
+                </div>
+                
+                <h3>Localización de elementos</h3>
+                <div class="code-block">
+                    <code># Diferentes métodos de búsqueda
+element = driver.find_element(By.ID, 'search')
+element = driver.find_element(By.CLASS_NAME, 'btn')
+element = driver.find_element(By.CSS_SELECTOR, 'div.content')
+element = driver.find_element(By.XPATH, '//div[@class="content"]')
+
+# Para múltiples elementos
+elements = driver.find_elements(By.TAG_NAME, 'a')</code>
+                </div>
+                
+                <h3>Interacción con elementos</h3>
+                <div class="code-block">
+                    <code># Escribir en un campo
+search_box = driver.find_element(By.NAME, 'q')
+search_box.send_keys('web scraping')
+search_box.send_keys(Keys.RETURN)
+
+# Click en botón
+button = driver.find_element(By.XPATH, '//button[text()="Enviar"]')
+button.click()
+
+# Desplegar dropdown
+from selenium.webdriver.support.ui import Select
+dropdown = Select(driver.find_element(By.ID, 'opciones'))
+dropdown.select_by_visible_text('Opción 2')</code>
+                </div>
+                
+                <h3>Esperas explícitas e implícitas</h3>
+                <div class="code-block">
+                    <code>from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Espera explícita (hasta 10 segundos)
+element = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.ID, 'resultados'))
+)
+
+# Espera implícita (afecta a todas las búsquedas)
+driver.implicitly_wait(5)  # segundos</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Automatiza una búsqueda en Google y extrae los primeros 5 resultados</p>
+                    <p>2. Navega por un sitio con scroll infinito cargando más contenido</p>
+                    <p>3. Rellena y envía un formulario complejo con múltiples pasos</p>
+                </div>
+                
+                <div class="note">
+                    <h4>Rendimiento</h4>
+                    <p>Selenium es más lento que Requests. Úsalo solo cuando sea estrictamente necesario para contenido dinámico. Para páginas normales, sigue usando Requests + BeautifulSoup.</p>
+                </div>
+            </div>
+            
+            <!-- Lección 7 -->
+            <div class="lesson" id="lesson7">
+                <h2>Almacenamiento de Datos Extraídos</h2>
+                
+                <p>Una vez extraídos los datos, necesitamos almacenarlos en formatos útiles para su posterior análisis o uso.</p>
+                
+                <h3>CSV (Excel)</h3>
+                <div class="code-block">
+                    <code>import csv
+
+# Escribir CSV
+with open('datos.csv', 'w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Nombre', 'Precio', 'URL'])  # Encabezados
+    for producto in productos:
+        writer.writerow([producto['nombre'], producto['precio'], producto['url']])
+
+# Leer CSV
+with open('datos.csv', 'r', encoding='utf-8') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row['Nombre'], row['Precio'])</code>
+                </div>
+                
+                <h3>JSON</h3>
+                <div class="code-block">
+                    <code>import json
+
+# Guardar datos como JSON
+datos = {
+    'pagina': 'https://ejemplo.com',
+    'productos': [
+        {'nombre': 'Producto 1', 'precio': 100},
+        {'nombre': 'Producto 2', 'precio': 200}
+    ]
+}
+
+with open('datos.json', 'w', encoding='utf-8') as file:
+    json.dump(datos, file, indent=2, ensure_ascii=False)
+
+# Leer JSON
+with open('datos.json', 'r', encoding='utf-8') as file:
+    datos_leidos = json.load(file)</code>
+                </div>
+                
+                <h3>Bases de datos SQL (SQLite)</h3>
+                <div class="code-block">
+                    <code>import sqlite3
+
+# Crear/conectar a base de datos
+conn = sqlite3.connect('productos.db')
+cursor = conn.cursor()
+
+# Crear tabla
+cursor.execute('''CREATE TABLE IF NOT EXISTS productos
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 nombre TEXT NOT NULL,
+                 precio REAL,
+                 url TEXT UNIQUE)''')
+
+# Insertar datos
+for producto in productos:
+    cursor.execute("INSERT INTO productos (nombre, precio, url) VALUES (?, ?, ?)",
+                  (producto['nombre'], producto['precio'], producto['url']))
+
+# Guardar cambios y cerrar
+conn.commit()
+conn.close()</code>
+                </div>
+                
+                <h3>Pandas DataFrame</h3>
+                <div class="code-block">
+                    <code>import pandas as pd
+
+# Crear DataFrame
+df = pd.DataFrame(productos)
+
+# Guardar en varios formatos
+df.to_csv('productos.csv', index=False)
+df.to_excel('productos.xlsx', index=False)
+df.to_json('productos.json', orient='records')
+
+# Leer datos
+df = pd.read_csv('productos.csv')</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Crea un scraper que guarde los datos en CSV y JSON</p>
+                    <p>2. Implementa una base de datos SQLite para almacenar los datos de forma estructurada</p>
+                    <p>3. Compara el rendimiento de los diferentes métodos de almacenamiento</p>
+                </div>
+                
+                <div class="note">
+                    <h4>Consejo</h4>
+                    <p>Para grandes volúmenes de datos, considera usar bases de datos más robustas como PostgreSQL o MongoDB, o sistemas de almacenamiento en la nube.</p>
+                </div>
+            </div>
+            
+            <!-- Lección 8 -->
+            <div class="lesson" id="lesson8">
+                <h2>Manejo de Errores y Robustez</h2>
+                
+                <p>Los scrapers deben ser robustos y manejar adecuadamente los errores que puedan ocurrir durante la ejecución.</p>
+                
+                <h3>Errores comunes en web scraping</h3>
+                <ul>
+                    <li>Conexiones fallidas o timeouts</li>
+                    <li>Cambios en la estructura del HTML</li>
+                    <li>Bloqueos por parte del sitio</li>
+                    <li>Páginas con contenido dinámico no esperado</li>
+                    <li>Limitaciones de tasa (rate limiting)</li>
+                </ul>
+                
+                <h3>Manejo básico de errores</h3>
+                <div class="code-block">
+                    <code>import requests
+from requests.exceptions import RequestException
+import time
+
+def safe_request(url, max_retries=3, timeout=10):
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, timeout=timeout)
+            response.raise_for_status()  # Lanza error para códigos 4xx/5xx
+            return response
+        except RequestException as e:
+            print(f"Intento {attempt + 1} fallido: {str(e)}")
+            if attempt < max_retries - 1:
+                wait_time = 2 ** attempt  # Backoff exponencial
+                print(f"Esperando {wait_time} segundos antes de reintentar...")
+                time.sleep(wait_time)
+            else:
+                print(f"Error: No se pudo obtener {url} después de {max_retries} intentos")
+                return None</code>
+                </div>
+                
+                <h3>Verificación de elementos</h3>
+                <div class="code-block">
+                    <code>from bs4 import BeautifulSoup
+
+def extract_title(soup):
+    title_tag = soup.find('title')
+    if title_tag:
+        return title_tag.text.strip()
+    return "Título no encontrado"
+
+def extract_links(soup):
+    links = []
+    for a in soup.find_all('a', href=True):
+        href = a['href']
+        if href.startswith('http'):  # Filtrar enlaces absolutos
+            links.append(href)
+    return links if links else None</code>
+                </div>
+                
+                <h3>Manejo de cambios estructurales</h3>
+                <div class="code-block">
+                    <code>def extract_price(soup):
+    # Intentar múltiples selectores posibles
+    selectors = [
+        {'method': 'find', 'args': ['span', {'class': 'price'}]},
+        {'method': 'find', 'args': ['div', {'class': 'precio-actual'}]},
+        {'method': 'select_one', 'args': ['p.precio']}
+    ]
+    
+    for selector in selectors:
+        method = getattr(soup, selector['method'])
+        element = method(*selector['args'])
+        if element:
+            return element.text.strip()
+    
+    return "Precio no encontrado"</code>
+                </div>
+                
+                <h3>Logging para depuración</h3>
+                <div class="code-block">
+                    <code>import logging
+
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='scraper.log'
+)
+
+# Ejemplo de uso
+try:
+    response = requests.get(url)
+    response.raise_for_status()
+except Exception as e:
+    logging.error(f"Error al obtener {url}: {str(e)}")
+else:
+    logging.info(f"Successfully scraped {url}")</code>
+                </div>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Implementa manejo de errores en un scraper existente</p>
+                    <p>2. Crea funciones que verifiquen la presencia de elementos antes de extraerlos</p>
+                    <p>3. Configura un sistema de logging para registrar el progreso y errores</p>
+                </div>
+                
+                <div class="note">
+                    <h4>Mejores prácticas</h4>
+                    <p>1. Siempre maneja los posibles errores</p>
+                    <p>2. Implementa reintentos con backoff exponencial</p>
+                    <p>3. Registra suficiente información para depurar problemas</p>
+                    <p>4. Valida los datos extraídos antes de almacenarlos</p>
+                </div>
+            </div>
+            
+            <!-- Lección 9 -->
+            <div class="lesson" id="lesson9">
+                <h2>Evitar Bloqueos y Scraping Ético</h2>
+                
+                <p>Los sitios web pueden detectar y bloquear scrapers. Aprende a evitar bloqueos y a hacer scraping de forma ética.</p>
+                
+                <h3>Técnicas comunes de bloqueo</h3>
+                <ul>
+                    <li>Detección de User-Agent</li>
+                    <li>Límite de solicitudes por IP</li>
+                    <li>CAPTCHAs</li>
+                    <li>Comportamiento no humano (velocidad, patrones)</li>
+                    <li>Análisis de JavaScript y cookies</li>
+                </ul>
+                
+                <h3>Evitar bloqueos</h3>
+                <div class="code-block">
+                    <code># Rotación de User-Agents
+user_agents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ...',
+    'Mozilla/5.0 (X11; Linux x86_64) ...'
+]
+
+headers = {
+    'User-Agent': random.choice(user_agents),
+    'Accept-Language': 'es-ES,es;q=0.9',
+    'Referer': 'https://www.google.com/'
+}
+
+# Uso de proxies
+proxies = {
+    'http': 'http://10.10.1.10:3128',
+    'https': 'http://10.10.1.10:1080'
+}
+
+response = requests.get(url, headers=headers, proxies=proxies)</code>
+                </div>
+                
+                <h3>Control de velocidad</h3>
+                <div class="code-block">
+                    <code>import time
+import random
+
+# Espera aleatoria entre solicitudes
+def random_delay(min=1, max=5):
+    time.sleep(random.uniform(min, max))
+
+# Limitar tasa de solicitudes
+REQUEST_LIMIT = 5  # solicitudes por minuto
+last_requests = []
+
+def make_request(url):
+    now = time.time()
+    
+    # Eliminar registros antiguos
+    last_requests[:] = [t for t in last_requests if now - t < 60]
+    
+    if len(last_requests) >= REQUEST_LIMIT:
+        wait_time = 60 - (now - last_requests[0])
+        print(f"Esperando {wait_time:.1f} segundos (límite de tasa)")
+        time.sleep(wait_time)
+    
+    response = requests.get(url)
+    last_requests.append(time.time())
+    return response</code>
+                </div>
+                
+                <h3>Manejo de CAPTCHAs</h3>
+                <ul>
+                    <li>Reducir velocidad de scraping</li>
+                    <li>Usar servicios de resolución de CAPTCHA (2Captcha, Anti-CAPTCHA)</li>
+                    <li>Para proyectos personales, resolver manualmente y guardar cookies</li>
+                    <li>Considerar usar APIs oficiales si están disponibles</li>
+                </ul>
+                
+                <h3>Directrices éticas</h3>
+                <ul>
+                    <li>Respeta robots.txt</li>
+                    <li>No sobrecargues los servidores</li>
+                    <li>Extrae solo los datos que necesites</li>
+                    <li>No scrapees datos personales sin consentimiento</li>
+                    <li>Atribuye correctamente los datos obtenidos</li>
+                    <li>Considera contactar al sitio para pedir acceso a datos</li>
+                </ul>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Implementa rotación de User-Agents en tu scraper</p>
+                    <p>2. Crea un sistema de control de tasa de solicitudes</p>
+                    <p>3. Revisa el archivo robots.txt de varios sitios web populares</p>
+                </div>
+                
+                <div class="warning">
+                    <h4>Consideraciones legales</h4>
+                    <p>El scraping puede violar términos de servicio y en algunos casos leyes como la DMCA o GDPR. Consulta con un profesional legal si tienes dudas sobre la legalidad de tu proyecto.</p>
+                </div>
+            </div>
+            
+            <!-- Lección 10 -->
+            <div class="lesson" id="lesson10">
+                <h2>Scrapy: Framework Profesional de Web Scraping</h2>
+                
+                <p>Scrapy es un framework completo para scraping a gran escala. Aprenderemos sus conceptos básicos.</p>
+                
+                <h3>Instalación</h3>
+                <div class="code-block">
+                    <code>pip install scrapy</code>
+                </div>
+                
+                <h3>Crear un proyecto Scrapy</h3>
+                <div class="code-block">
+                    <code>scrapy startproject mi_proyecto
+cd mi_proyecto
+scrapy genspider ejemplo ejemplo.com</code>
+                </div>
+                
+                <h3>Estructura de un proyecto</h3>
+                <ul>
+                    <li><strong>spiders/</strong>: Contiene los spiders (arañas) que definen cómo hacer scraping</li>
+                    <li><strong>items.py</strong>: Define la estructura de los datos a extraer</li>
+                    <li><strong>pipelines.py</strong>: Procesamiento posterior de los datos</li>
+                    <li><strong>middlewares.py</strong>: Personalización del comportamiento de las peticiones</li>
+                    <li><strong>settings.py</strong>: Configuración del proyecto</li>
+                </ul>
+                
+                <h3>Spider básico</h3>
+                <div class="code-block">
+                    <code>import scrapy
+
+class ProductoSpider(scrapy.Spider):
+    name = 'productos'
+    start_urls = ['https://ejemplo.com/productos']
+    
+    def parse(self, response):
+        for producto in response.css('div.producto'):
+            yield {
+                'nombre': producto.css('h2::text').get(),
+                'precio': producto.css('.precio::text').get(),
+                'url': producto.css('a::attr(href)').get()
+            }
+        
+        # Seguir paginación
+        next_page = response.css('a.next-page::attr(href)').get()
+        if next_page:
+            yield response.follow(next_page, self.parse)</code>
+                </div>
+                
+                <h3>Ejecutar el spider</h3>
+                <div class="code-block">
+                    <code># Ejecutar y guardar en JSON
+scrapy crawl productos -o productos.json
+
+# Ejecutar en modo interactivo
+scrapy shell 'https://ejemplo.com/productos'</code>
+                </div>
+                
+                <h3>Ventajas de Scrapy</h3>
+                <ul>
+                    <li>Built-in para manejo de peticiones asíncronas</li>
+                    <li>Soporte para pipelines de procesamiento</li>
+                    <li>Middleware para rotación de User-Agents y proxies</li>
+                    <li>Exportación a múltiples formatos</li>
+                    <li>Soporte para crawling (seguir enlaces)</li>
+                    <li>Sistema de logging y estadísticas</li>
+                </ul>
+                
+                <div class="exercise">
+                    <h4>Ejercicio práctico</h4>
+                    <p>1. Crea un proyecto Scrapy y genera tu primer spider</p>
+                    <p>2. Implementa un spider que siga enlaces y extraiga datos de múltiples páginas</p>
+                    <p>3. Configura un pipeline para limpiar y validar los datos extraídos</p>
+                </div>
+                
+                <div class="note">
+                    <h4>Consejo final</h4>
+                    <p>Scrapy tiene una curva de aprendizaje más pronunciada pero es la mejor opción para proyectos serios de scraping. Para tareas pequeñas, Requests + BeautifulSoup pueden ser suficientes.</p>
+                </div>
+                
+                <h3>Recursos adicionales</h3>
+                <ul>
+                    <li>Documentación oficial de Scrapy: https://docs.scrapy.org/</li>
+                    <li>BeautifulSoup documentation: https://www.crummy.com/software/BeautifulSoup/bs4/doc/</li>
+                    <li>Selenium Python bindings: https://selenium-python.readthedocs.io/</li>
+                    <li>Lista de User-Agents: https://developers.whatismybrowser.com/useragents/explore/</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn" disabled onclick="prevLesson()">Anterior</button>
+            <button class="nav-btn" id="next-btn" onclick="nextLesson()">Siguiente</button>
+        </div>
+    </div>
+    
+    <script>
+        // Variables del curso
+        const totalLessons = 10;
+        let currentLesson = 1;
+        
+        // Elementos del DOM
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentLessonSpan = document.getElementById('current-lesson');
+        const totalLessonsSpan = document.getElementById('total-lessons');
+        const progressBar = document.getElementById('progress');
+        
+        // Inicializar
+        totalLessonsSpan.textContent = totalLessons;
+        updateProgress();
+        
+        // Funciones de navegación
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                document.getElementById(`lesson${currentLesson}`).classList.remove('active');
+                currentLesson++;
+                document.getElementById(`lesson${currentLesson}`).classList.add('active');
+                updateNavigation();
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function prevLesson() {
+            if (currentLesson > 1) {
+                document.getElementById(`lesson${currentLesson}`).classList.remove('active');
+                currentLesson--;
+                document.getElementById(`lesson${currentLesson}`).classList.add('active');
+                updateNavigation();
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function updateNavigation() {
+            currentLessonSpan.textContent = currentLesson;
+            prevBtn.disabled = currentLesson === 1;
+            nextBtn.disabled = currentLesson === totalLessons;
+            
+            // Cambiar texto del último botón
+            if (currentLesson === totalLessons) {
+                nextBtn.textContent = 'Finalizar';
+            } else {
+                nextBtn.textContent = 'Siguiente';
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (currentLesson / totalLessons) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Funciones para pestañas de código
+        function openCodeTab(evt, tabName) {
+            const tabContents = document.querySelectorAll(`.${evt.currentTarget.parentNode.parentNode.id} .code-tab-content`);
+            const tabButtons = document.querySelectorAll(`.${evt.currentTarget.parentNode.parentNode.id} .code-tab-btn`);
+            
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+        
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                nextLesson();
+            } else if (e.key === 'ArrowLeft') {
+                prevLesson();
+            }
+        });
+    </script>
+</body>
+</html>
